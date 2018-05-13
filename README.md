@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/CriptoRAND/HC128.svg?branch=master)](https://travis-ci.org/CriptoRAND/HC128)
+[![codecov](https://codecov.io/gh/CriptoRAND/HC128/branch/master/graph/badge.svg)](https://codecov.io/gh/CriptoRAND/HC128)
 
 # HC128
 UNLAM CRIPTOGRAFIA 1C 2018
