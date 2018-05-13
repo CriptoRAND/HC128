@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CriptoRAND/HC128.svg?branch=master)](https://travis-ci.org/CriptoRAND/HC128)
+
 # HC128
 UNLAM CRIPTOGRAFIA 1C 2018
 
