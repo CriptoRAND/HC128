@@ -25,38 +25,49 @@ public class BitSetParserTest {
 	@Test
 	public void conStringDeGarabatos() {
 		entidad.setCadena("nfjs#~€¬€7€¬8€|@8");
-		BitSetParser.setBitSetYCantidadDeBits(entidad);
+		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
-		BitSetParser.bitToString(entidad);
+		BitSetParser.parsearBitAString(entidad);
 		assertEquals("nfjs#~€¬€7€¬8€|@8", entidad.getCadena());
 	}
 	
 	@Test
 	public void conStringNormal() {
 		entidad.setCadena("Hola Mundo cruel");
-		BitSetParser.setBitSetYCantidadDeBits(entidad);
+		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
-		BitSetParser.bitToString(entidad);
-		assertEquals("nfjs#~€¬€7€¬8€|@8", entidad.getCadena());
+		BitSetParser.parsearBitAString(entidad);
+		assertEquals("Hola Mundo cruel", entidad.getCadena());
 	}
 	
 	@Test
 	public void conSoloNumeros() {
 		entidad.setCadena("10235987541651320846");
-		BitSetParser.setBitSetYCantidadDeBits(entidad);
+		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
-		BitSetParser.bitToString(entidad);
-		assertEquals("nfjs#~€¬€7€¬8€|@8", entidad.getCadena());
+		BitSetParser.parsearBitAString(entidad);
+		assertEquals("10235987541651320846", entidad.getCadena());
 	}
 	
 	@Test
-	public void conImagen() {
+	public void conImagenChica() {
 		File imagen = new File("./Imagenes/000.jpg");
 		String encodstring = Utils.encodeFileToBase64Binary(imagen);
 		entidad.setCadena(encodstring);
-		BitSetParser.setBitSetYCantidadDeBits(entidad);
+		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
-		BitSetParser.bitToString(entidad);
-		assertEquals("nfjs#~€¬€7€¬8€|@8", entidad.getCadena());
+		BitSetParser.parsearBitAString(entidad);
+		assertEquals(encodstring, entidad.getCadena());
+	}
+	
+	@Test
+	public void conImagenGrande() {
+		File imagen = new File("./Imagenes/001.jpg");
+		String encodstring = Utils.encodeFileToBase64Binary(imagen);
+		entidad.setCadena(encodstring);
+		BitSetParser.parsearStringABit(entidad);
+		entidad.setCadena("");
+		BitSetParser.parsearBitAString(entidad);
+		assertEquals(encodstring, entidad.getCadena());
 	}
 }

@@ -18,20 +18,20 @@ public class BitSetParser {
 	 * Recibe una entidad para parsear y le setea la cantidad de bits que contiene y le setea un bitSet acorde.
 	 * @param entidad
 	 */
-	public static void setBitSetYCantidadDeBits(EntidadAParsear entidad) {
+	public static void parsearStringABit(EntidadAParsear entidad) {
 		if (entidad.getCadena() != null || !entidad.getCadena().equals("")) {
 			char[] caracteres = entidad.getCadena().toCharArray();
 			entidad.setCantidadDeBits(caracteres.length * BYTE);
+			BitSet cadenaDeBits = new BitSet();
 			for (int j = 0; j < caracteres.length; j++) {
 				char caracter = caracteres[j];
 				String bitsDelCaracter = Integer.toBinaryString(caracter);
-				String[] bits = String.format(FORMATO_BYTE, Integer.parseInt(bitsDelCaracter)).split("");
-				BitSet cadenaDeBits = new BitSet();
+				String[] bits = String.format(FORMATO_BYTE, Long.parseLong(bitsDelCaracter)).split("");
 				for (int i = 0; i < bits.length; i++) {
-					cadenaDeBits.set(j * BYTE + i, Integer.parseInt(bits[i]) == 1);
+					cadenaDeBits.set(j * BYTE + i, Long.parseLong(bits[i]) == 1);
 				}
-				entidad.setCadenaDeBits(cadenaDeBits);
 			}
+			entidad.setCadenaDeBits(cadenaDeBits);
 		} else {
 			System.out.println("Entidad vacía");
 		}
@@ -41,7 +41,7 @@ public class BitSetParser {
 	 * Setea la cadena en la entidad.
 	 * @param la entidad
 	 */
-	public static void bitToString(EntidadAParsear entidad) {
+	public static void parsearBitAString(EntidadAParsear entidad) {
 		String respuesta = "";
 		for (int i = 0; i < entidad.getCantidadDeBits(); i++) {
 			respuesta += entidad.getCadenaDeBits().get(i) ? UNO : CERO;
@@ -49,15 +49,6 @@ public class BitSetParser {
 		entidad.setCadena(new String(new BigInteger(respuesta, 2).toByteArray()));
 	}
 
-	/**
-	 * Setea en la entidad una cadena con 1s y 0s acorde al bitSet que tiene.
-	 */
-	public void toBitString(EntidadAParsear entidad) {
-		String respuesta = "";
-		for (int i = 0; i < entidad.getCantidadDeBits(); i++) {
-			respuesta += entidad.getCadenaDeBits().get(i) ? "1" : "0";
-		}
-		entidad.setCadena(respuesta);
-	}
+	
 
 }
