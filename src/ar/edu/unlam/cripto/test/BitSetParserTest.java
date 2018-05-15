@@ -3,6 +3,7 @@ package ar.edu.unlam.cripto.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.math.BigInteger;
 
 import org.junit.Test;
 
@@ -24,11 +25,11 @@ public class BitSetParserTest {
 
 	@Test
 	public void conStringDeGarabatos() {
-		entidad.setCadena("nfjs#~€¬€7€¬8€|@8");
+		entidad.setCadena("nfjs#~78|@8");
 		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
 		BitSetParser.parsearBitAString(entidad);
-		assertEquals("nfjs#~€¬€7€¬8€|@8", entidad.getCadena());
+		assertEquals("nfjs#~78|@8", entidad.getCadena());
 	}
 	
 	@Test
@@ -37,7 +38,32 @@ public class BitSetParserTest {
 		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
 		BitSetParser.parsearBitAString(entidad);
+		//assertEquals("Hola Mundo cruel", entidad.getCadena());
 		assertEquals("Hola Mundo cruel", entidad.getCadena());
+	}
+	
+	@Test
+	public void conBigInt() {
+		int bitSize = 6;
+		int shift = 3;
+		BigInteger b = new BigInteger("000101", 2);
+		BigInteger topBits = b.shiftRight(bitSize - shift);
+	    BigInteger mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE);
+		System.out.println(b.shiftLeft(shift).or(topBits).and(mask).toString(2));
+	}
+	
+	//XOR rellena con 0s al principio
+	@Test
+	public void conBigIntXor() {
+		BigInteger b1 = new BigInteger("01", 2);
+		BigInteger b2 = new BigInteger("10000001", 2);
+		System.out.println(b1.xor(b2).toString(2));
+	}
+	
+	@Test
+	public void conBigIntMod() {
+		BigInteger b1 = new BigInteger("1000", 2);
+		System.out.println(b1.mod(new BigInteger("3")).toString(2));
 	}
 	
 	@Test

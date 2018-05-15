@@ -2,6 +2,7 @@ package ar.edu.unlam.cripto.parser;
 
 import java.math.BigInteger;
 import java.util.BitSet;
+import java.util.stream.IntStream;
 
 /**
  * Clase dedicada a parsear un objeto entidad y setear sus diferentes atributos de interes como bitSet y cantidadDeBits.
@@ -22,16 +23,14 @@ public class BitSetParser {
 		if (entidad.getCadena() != null || !entidad.getCadena().equals("")) {
 			char[] caracteres = entidad.getCadena().toCharArray();
 			entidad.setCantidadDeBits(caracteres.length * BYTE);
-			BitSet cadenaDeBits = new BitSet();
+			String todo = new String("");
 			for (int j = 0; j < caracteres.length; j++) {
 				char caracter = caracteres[j];
 				String bitsDelCaracter = Integer.toBinaryString(caracter);
-				String[] bits = String.format(FORMATO_BYTE, Long.parseLong(bitsDelCaracter)).split("");
-				for (int i = 0; i < bits.length; i++) {
-					cadenaDeBits.set(j * BYTE + i, Long.parseLong(bits[i]) == 1);
-				}
+				String format = String.format(FORMATO_BYTE, Long.parseLong(bitsDelCaracter));
+				todo = todo.concat(format);
 			}
-			entidad.setCadenaDeBits(cadenaDeBits);
+			entidad.setCadenaDeBits(new BigInteger(todo, 2));
 		} else {
 			System.out.println("Entidad vacía");
 		}
@@ -42,13 +41,9 @@ public class BitSetParser {
 	 * @param la entidad
 	 */
 	public static void parsearBitAString(EntidadAParsear entidad) {
-		String respuesta = "";
-		for (int i = 0; i < entidad.getCantidadDeBits(); i++) {
-			respuesta += entidad.getCadenaDeBits().get(i) ? UNO : CERO;
-		}
-		entidad.setCadena(new String(new BigInteger(respuesta, 2).toByteArray()));
+		System.out.println("Cantidad de bits de entidad en parsearBitAString: "+entidad.getCantidadDeBits());
+		BigInteger b = entidad.getCadenaDeBits();
+		entidad.setCadena(new String(b.toByteArray()));
+		System.out.println("getCadena luego de parsearBitAString: "+entidad.getCadena());
 	}
-
-	
-
 }

@@ -1,6 +1,6 @@
 package ar.edu.unlam.cripto.parser;
 
-import java.util.BitSet;
+import java.math.BigInteger;
 
 /**
  * Clase generica que contiene el objeto con el string a parsear, el bitset y la cantidad de bits.
@@ -10,16 +10,15 @@ import java.util.BitSet;
 public class EntidadAParsear {
 
 	private String cadena;
-	private BitSet cadenaDeBits;
+	private BigInteger cadenaDeBits;
 	private long cantidadDeBits;
 	
 	public EntidadAParsear() {
-		cadenaDeBits = new BitSet();
-	}
+		cadenaDeBits = null;	}
 	
 	public EntidadAParsear(String cadena) {
 		this.cadena = cadena;
-		cadenaDeBits = new BitSet();
+		cadenaDeBits = null;
 	}
 
 	public String getCadena() {
@@ -30,11 +29,11 @@ public class EntidadAParsear {
 		this.cadena = cadena;
 	}
 
-	public BitSet getCadenaDeBits() {
+	public BigInteger getCadenaDeBits() {
 		return cadenaDeBits;
 	}
 
-	public void setCadenaDeBits(BitSet cadenaDeBits) {
+	public void setCadenaDeBits(BigInteger cadenaDeBits) {
 		this.cadenaDeBits = cadenaDeBits;
 	}
 
@@ -47,13 +46,13 @@ public class EntidadAParsear {
 	}
 	
 	/**
-	 * devuelve un string representando la cadena de 1 y 0 seteada en el bitset.
-	 * es un BitSet toString mejorado
+	 * Devuelve un string representando la cadena de 1 y 0 seteada en el bitset.
+	 * Es un BitSet toString mejorado
 	 */
 	public String toString() {
 		String respuesta = "";
 		for (int i = 0; i < this.getCantidadDeBits(); i++) {
-			respuesta += this.getCadenaDeBits().get(i) ? "1" : "0";
+			//respuesta += this.getCadenaDeBits()..get(i) ? "1" : "0";
 		}
 		return respuesta;
 	}

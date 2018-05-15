@@ -46,7 +46,7 @@ public class HC128 {
 	 */
 	public void f1(EntidadAParsear entidad) {
 		String s = null;
-		BitSet bits = entidad.getCadenaDeBits();
+		//BitSet bits = entidad.getCadenaDeBits();
 		// BitSet bitsCambiados = (bits >> 7) ^ (bits >> 18) ^ (bits >> 3);
 	}
 
