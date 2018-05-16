@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import ar.edu.unlam.cripto.parser.BitSetParser;
 import ar.edu.unlam.cripto.parser.EntidadAParsear;
+import ar.edu.unlam.cripto.parser.Utils;
 
 /**
  * Clase para las pruebas del parser de bits.
@@ -44,13 +45,10 @@ public class BitSetParserTest {
 	
 	@Test
 	public void conBigInt() {
-		int bitSize = 6;
-		int shift = 3;
-		BigInteger b = new BigInteger("000101", 2);
-		BigInteger topBits = b.shiftRight(bitSize - shift);
-	    BigInteger mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE);
-		System.out.println(b.shiftLeft(shift).or(topBits).and(mask).toString(2));
+		Utils.rotateLeft(new BigInteger("100010"), 6, 3);
 	}
+
+	
 	
 	//XOR rellena con 0s al principio
 	@Test
