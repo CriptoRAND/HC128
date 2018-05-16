@@ -2,21 +2,16 @@ package ar.edu.unlam.cripto.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.BitSet;
-import java.util.stream.IntStream;
 
 /**
  * Clase dedicada a parsear un objeto entidad y setear sus diferentes atributos de interes como bitSet y cantidadDeBits.
  * @author Pablo, Martin
  */
 public class BitSetParser {
-
-	private static final String CERO = "0";
-	private static final String UNO = "1";
+	
 	private static final String FORMATO_BYTE = "%08d";
 	private static final int BYTE = 8;
 

@@ -2,8 +2,6 @@ package ar.edu.unlam.cripto.parser;
 
 import java.util.BitSet;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 /**
  * Clase que contiene el algoritmo criptografico que realiza la encriptacion
  * propiamente dicha.
@@ -45,7 +43,7 @@ public class HC128 {
 	 * Funciones varias de apoyo al algoritmo principal
 	 */
 	public void f1(EntidadAParsear entidad) {
-		String s = null;
+//		String s = null;
 		//BitSet bits = entidad.getCadenaDeBits();
 		// BitSet bitsCambiados = (bits >> 7) ^ (bits >> 18) ^ (bits >> 3);
 	}

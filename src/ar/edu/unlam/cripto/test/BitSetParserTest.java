@@ -3,9 +3,6 @@ package ar.edu.unlam.cripto.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
@@ -13,7 +10,6 @@ import org.junit.Test;
 
 import ar.edu.unlam.cripto.parser.BitSetParser;
 import ar.edu.unlam.cripto.parser.EntidadAParsear;
-import ar.edu.unlam.cripto.parser.Utils;
 
 /**
  * Clase para las pruebas del parser de bits.
