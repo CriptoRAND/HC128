@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import ar.edu.unlam.cripto.parser.BitSetParser;
 import ar.edu.unlam.cripto.parser.EntidadAParsear;
+import ar.edu.unlam.cripto.parser.HC128;
 import ar.edu.unlam.cripto.parser.Utils;
 
 /**
@@ -22,6 +23,11 @@ public class BitSetParserTest {
 	
 	public BitSetParserTest() {
 		entidad = new EntidadAParsear();
+	}
+	
+	@Test
+	public void pruebaHC128() {
+		HC128 hc = new HC128();
 	}
 
 	@Test
