@@ -3,6 +3,10 @@ package ar.edu.unlam.cripto.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 
 import org.junit.Test;
@@ -76,24 +80,26 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conImagenChica() {
+	public void conImagenChica() throws IOException {
 		File imagen = new File("./Imagenes/000.jpg");
-		String encodstring = Utils.encodeFileToBase64Binary(imagen);
-		entidad.setCadena(encodstring);
-		BitSetParser.parsearStringABit(entidad);
-		entidad.setCadena("");
-		BitSetParser.parsearBitAString(entidad);
-		assertEquals(encodstring, entidad.getCadena());
+		BitSetParser.parsearFileABit(entidad, imagen);
+		imagen = new File("./Imagenes/Desencriptada chica.jpg");
+		BitSetParser.parsearBitAFile(entidad, imagen);
 	}
 	
 	@Test
-	public void conImagenGrande() {
+	public void conImagenGrande() throws IOException {
 		File imagen = new File("./Imagenes/001.jpg");
-		String encodstring = Utils.encodeFileToBase64Binary(imagen);
-		entidad.setCadena(encodstring);
-		BitSetParser.parsearStringABit(entidad);
-		entidad.setCadena("");
-		BitSetParser.parsearBitAString(entidad);
-		assertEquals(encodstring, entidad.getCadena());
+		BitSetParser.parsearFileABit(entidad, imagen);
+		imagen = new File("./Imagenes/Desencriptada.jpg");
+		BitSetParser.parsearBitAFile(entidad, imagen);
+	}
+	
+	@Test
+	public void conImagenMasGrande() throws IOException {
+		File imagen = new File("./Imagenes/muy grande.jpg");
+		BitSetParser.parsearFileABit(entidad, imagen);
+		imagen = new File("./Imagenes/Desencriptada muy grande.jpg");
+		BitSetParser.parsearBitAFile(entidad, imagen);
 	}
 }

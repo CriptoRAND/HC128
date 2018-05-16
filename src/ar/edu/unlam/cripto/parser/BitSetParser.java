@@ -1,5 +1,10 @@
 package ar.edu.unlam.cripto.parser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.BitSet;
 import java.util.stream.IntStream;
@@ -45,5 +50,36 @@ public class BitSetParser {
 		BigInteger b = entidad.getCadenaDeBits();
 		entidad.setCadena(new String(b.toByteArray()));
 		System.out.println("getCadena luego de parsearBitAString: "+entidad.getCadena());
+	}
+	
+	/**
+	 * Recibe una entidad para parsear y un file, y le setea la cantidad de bits que contiene.
+	 * @param entidad
+	 * @param imagen
+	 * @throws IOException
+	 */
+	public static void parsearFileABit(EntidadAParsear entidad, File imagen) throws IOException{
+		  FileInputStream fileInputStreamReader = new FileInputStream(imagen);
+	        byte[] bytes = new byte[(int)imagen.length()];
+	        fileInputStreamReader.read(bytes);
+	        fileInputStreamReader.close();
+	        entidad.setCadenaDeBits(new BigInteger(bytes));
+	}
+	
+	/**
+	 * Desencripta los bits de la entidad y escribe la imagen.
+	 * @param entidad
+	 * @param imagen
+	 * @throws IOException
+	 */
+	public static void parsearBitAFile(EntidadAParsear entidad, File imagen) throws IOException{
+		byte[] bytes = entidad.getCadenaDeBits().toByteArray();
+
+		 FileOutputStream stream = new FileOutputStream(imagen);
+		 try {
+		     stream.write(bytes);
+		 } finally {
+		     stream.close();
+		 }
 	}
 }

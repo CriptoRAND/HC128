@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Base64;
 
 /**
@@ -20,9 +21,11 @@ public class Utils {
         try {
             fileInputStreamReader = new FileInputStream(file);
             byte[] bytes = new byte[(int)file.length()];
+            
             fileInputStreamReader.read(bytes);
+            System.out.println(bytes);
             encodedFile = Base64.getEncoder().encodeToString(bytes);
-            System.out.println("Imagen codificada base 64: "+encodedFile);
+//            System.out.println("Imagen codificada base 64: "+encodedFile);
         } catch (FileNotFoundException e) {
             System.out.println("FileNotFoundException: "+e);
         } catch (IOException e) {
