@@ -26,12 +26,12 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void pruebaHC128() {
+	public void testHC128() {
 		HC128 hc = new HC128();
 	}
 
 	@Test
-	public void conStringDeGarabatos() {
+	public void testConStringDeGarabatos() {
 		entidad.setCadena("nfjs#~78|@8");
 		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
@@ -40,7 +40,7 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conStringNormal() {
+	public void testConStringNormal() {
 		entidad.setCadena("Hola Mundo cruel");
 		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
@@ -50,7 +50,7 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conBigInt() {
+	public void testConBigInt() {
 		Utils.rotateLeft(new BigInteger("100010"), 6, 3);
 	}
 
@@ -58,20 +58,20 @@ public class BitSetParserTest {
 	
 	//XOR rellena con 0s al principio
 	@Test
-	public void conBigIntXor() {
+	public void testConBigIntXor() {
 		BigInteger b1 = new BigInteger("01", 2);
 		BigInteger b2 = new BigInteger("10000001", 2);
 		System.out.println(b1.xor(b2).toString(2));
 	}
 	
 	@Test
-	public void conBigIntMod() {
+	public void testConBigIntMod() {
 		BigInteger b1 = new BigInteger("1000", 2);
 		System.out.println(b1.mod(new BigInteger("3")).toString(2));
 	}
 	
 	@Test
-	public void conSoloNumeros() {
+	public void testConSoloNumeros() {
 		entidad.setCadena("10235987541651320846");
 		BitSetParser.parsearStringABit(entidad);
 		entidad.setCadena("");
@@ -80,7 +80,7 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conImagenChica() throws IOException {
+	public void testConImagenChica() throws IOException {
 		File imagen = new File("./Imagenes/000.jpg");
 		BitSetParser.parsearFileABit(entidad, imagen);
 		imagen = new File("./Imagenes/Desencriptada chica.jpg");
@@ -88,7 +88,7 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conImagenGrande() throws IOException {
+	public void testConImagenGrande() throws IOException {
 		File imagen = new File("./Imagenes/001.jpg");
 		BitSetParser.parsearFileABit(entidad, imagen);
 		imagen = new File("./Imagenes/Desencriptada.jpg");
@@ -96,10 +96,18 @@ public class BitSetParserTest {
 	}
 	
 	@Test
-	public void conImagenMasGrande() throws IOException {
+	public void testConImagenMasGrande() throws IOException {
 		File imagen = new File("./Imagenes/muy grande.jpg");
 		BitSetParser.parsearFileABit(entidad, imagen);
 		imagen = new File("./Imagenes/Desencriptada muy grande.jpg");
 		BitSetParser.parsearBitAFile(entidad, imagen);
 	}
+	
+	@Test
+	public void testUsandoClassInteger(){
+		Integer integer = new Integer(1);
+		System.out.println(Integer.rotateLeft(1, 2));
+		
+	}
+	
 }

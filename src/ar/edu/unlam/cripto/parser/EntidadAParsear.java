@@ -14,7 +14,8 @@ public class EntidadAParsear {
 	private long cantidadDeBits;
 	
 	public EntidadAParsear() {
-		cadenaDeBits = null;	}
+		cadenaDeBits = null;	
+	}
 	
 	public EntidadAParsear(String cadena) {
 		this.cadena = cadena;

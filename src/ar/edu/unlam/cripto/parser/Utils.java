@@ -10,9 +10,13 @@ import java.math.BigInteger;
  */
 public class Utils {
 	
-	public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int shift) {
+	/*public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int shift) {
 		BigInteger topBits = bigInt.shiftRight(bitSize - shift);
 	    BigInteger mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE);
 		return bigInt.shiftLeft(shift).or(topBits).and(mask);
+	}*/
+	
+	public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int shift) {
+		return new BigInteger (Integer.toString(Integer.rotateLeft(bigInt.intValue(), shift)));	
 	}
 }
