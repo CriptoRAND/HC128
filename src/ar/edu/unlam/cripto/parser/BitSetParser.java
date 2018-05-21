@@ -2,6 +2,7 @@ package ar.edu.unlam.cripto.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -63,12 +64,11 @@ public class BitSetParser {
 	 * @throws IOException
 	 */
 	public static void parsearFileABit(EntidadAParsear entidad, File imagen) throws IOException {
-		FileInputStream fileInputStreamReader = new FileInputStream(imagen);
-		byte[] bytes = new byte[(int) imagen.length()];
-		fileInputStreamReader.read(bytes);
-		fileInputStreamReader.close();
+		byte[] bytes = Utils.fileToByte(imagen);
 		entidad.setCadenaDeBits(new BigInteger(bytes));
 	}
+
+	
 
 	/**
 	 * Desencripta los bits de la entidad y escribe la imagen.

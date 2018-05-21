@@ -12,25 +12,17 @@ import java.math.BigInteger;
 public class HC128 {
 
 	// Cada tabla de 512 filas de 32 bits - [512] con cada BigInteger de 32 bits.
-	public BigInteger[] tablaP;
-	public BigInteger[] tablaQ;
-	public BigInteger key;
-	public BigInteger vectorDeInicializacion;
+	private byte[] key, iv;
+    private int[] p = new int[512];
+    private int[] q = new int[512];
+    private int count = 0;
+    private byte[] buffer = new byte[4];
+    private int index = 0;
 
-	public HC128() {
-		tablaP = new BigInteger[512];
-		tablaQ = new BigInteger[512];
-		// 16 bytes, Secuencia de Fibonacci
-		byte[] bytes = { (byte) 1, (byte) 1, (byte) 2, (byte) 3, (byte) 5, (byte) 8, (byte) 13, (byte) 21, (byte) 34,
-				(byte) 55, (byte) 89, (byte) 144, (byte) 233, (byte) 377, (byte) 610, (byte) 987, (byte) 1597 };
-		key = new BigInteger(bytes);
-		System.out.println("KEY :" + key.toString(2));
-		// 16 bytes, Secuencia de Números Mágicos
-		byte[] bytes2 = { (byte) 1, (byte) 5, (byte) 15, (byte) 34, (byte) 65, (byte) 111, (byte) 175, (byte) 260,
-				(byte) 369, (byte) 505, (byte) 671, (byte) 870, (byte) 1105, (byte) 1379, (byte) 1695, (byte) 2056,
-				(byte) 2465 };
-		vectorDeInicializacion = new BigInteger(bytes2);
-		System.out.println("IV :" + vectorDeInicializacion.toString(2));
+	public HC128(){
+		this.iv = iv;
+        this.key = key;
+        inicializar();
 	}
 
 	/*
@@ -43,12 +35,17 @@ public class HC128 {
 	/*
 	 * Funciones varias principales del algoritmo
 	 */
-	public void inicializarKey() {
-
-	}
-
-	public void inicializarVectorDeInicializacion() {
-
+	public void inicializar() {
+		if (key.length != 16) {
+            throw new java.lang.IllegalArgumentException(
+                    "La key debe tener 128 bits");
+        }
+        count = 0;
+        int[] w = new int[1280];
+        
+        for(int i=0; i<=7; i++) {
+        	//w[i] = k[i];
+        }
 	}
 
 	public void generarEspacioDeLlaves() {
