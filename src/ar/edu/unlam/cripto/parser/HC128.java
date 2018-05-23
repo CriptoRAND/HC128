@@ -19,7 +19,7 @@ public class HC128 {
     private byte[] buffer = new byte[4];
     private int index = 0;
 
-	public HC128(){
+	public HC128(byte[] iv,byte[]key){
 		this.iv = iv;
         this.key = key;
         inicializar();
@@ -43,9 +43,39 @@ public class HC128 {
         count = 0;
         int[] w = new int[1280];
         
+        byte primerByteKey =key[0];
+        
+        String[] s1 = String.format("%8s", Integer.toBinaryString(primerByteKey & 0xFF)).replace(' ', '0').split("");
+        
         for(int i=0; i<=7; i++) {
-        	//w[i] = k[i];
+        	w[i] = Integer.parseInt(s1[i]);
         }
+        
+        byte  primerByteIV =iv[0];
+        String[] s2 = String.format("%8s", Integer.toBinaryString(primerByteIV & 0xFF)).replace(' ', '0').split("");
+        
+        for(int i=8; i<=15; i++) {
+        	w[i] = Integer.parseInt(s2[i]);
+        }
+        
+        
+        //TODO: Cambiar según pseudocodigo
+        for(int i=16; i<=1279; i++) {
+//         	 w[i] = f2(w[i - 2]) + w[i - 7] + f1(w[i - 15]) + w[i - 16] + i;
+        }
+        
+        
+        for(int i=0; i<=511; i++) {
+        	p[i] = w[i+256];
+        	q[i] = w[i+768];
+        }
+        //TODO: Cambiar según pseudocodigo
+        for(int i=0; i<=511; i++) {
+   
+//        	p[i] = w[i+256];
+//        	q[i] = w[i+768];
+        }
+        	
 	}
 
 	public void generarEspacioDeLlaves() {

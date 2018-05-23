@@ -27,7 +27,9 @@ public class BitSetParserTest {
 	
 	@Test
 	public void testHC128() {
-		HC128 hc = new HC128();
+		String iv_srt = "@#$$54214AEFDCAE";
+        String key_srt = "AAAAAAAAqweAAAAT";
+		HC128 hc = new HC128(iv_srt.getBytes(),key_srt.getBytes());
 	}
 
 	@Test
