@@ -30,6 +30,9 @@ public class BitSetParserTest {
 		String iv_srt = "@#$$54214AEFDCAE";
         String key_srt = "AAAAAAAAqweAAAAT";
 		HC128 hc = new HC128(iv_srt.getBytes(),key_srt.getBytes());
+		byte[] cadenaEncriptada = hc.encriptar("Funciona".getBytes());
+		assertEquals("Funciona", new String(hc.encriptar(cadenaEncriptada)));
+		
 	}
 
 	@Test
@@ -55,6 +58,14 @@ public class BitSetParserTest {
 	public void testConBigInt() {
 		Utils.rotateLeft(new BigInteger("100010"), 6, 3);
 	}
+
+	
+	@Test
+	public void restaModular() {
+		int x = 1024-510;  
+		assertEquals(x & 0x1FF,2);
+	}
+	
 
 	
 	

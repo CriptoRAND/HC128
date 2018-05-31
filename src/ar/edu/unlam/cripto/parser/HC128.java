@@ -1,7 +1,5 @@
 package ar.edu.unlam.cripto.parser;
 
-import java.math.BigInteger;
-
 /**
  * Clase que contiene el algoritmo criptografico que realiza la encriptacion
  * propiamente dicha.
@@ -26,10 +24,23 @@ public class HC128 {
 	}
 
 	/*
-	 * Funcion principal de encriptacion
+	 * Funcion principal de encriptación
 	 */
-	public void encriptar() {
-
+	public byte[] encriptar(byte[] data) {
+		byte[] s = new byte[data.length];
+		for (int i = 0; i < data.length; i++) {
+			 int j = mod512(i);
+			 if(mod1024(i)<512) {
+				 p[j] = (p[j] + g1(p[mod512(j-3)],p[mod512(j-10)],p[mod512(j-511)]));
+				 s[i] = (byte) h1(p[mod512(j-12)] ^ p[j]);
+			 }else {
+				 q[j] = (q[j] + g1(q[mod512(j-3)],p[mod512(j-10)],q[mod512(j-511)]));
+				 s[i] = (byte) h1(q[mod512(j-12)] ^ q[j]);
+			 }
+		 }
+		
+		inicializar();
+		return s;
 	}
 
 	/*
@@ -54,7 +65,7 @@ public class HC128 {
 		String[] s2 = String.format("%8s", Integer.toBinaryString(primerByteIV & 0xFF)).replace(' ', '0').split("");
 
 		for (int i = 8; i <= 15; i++) {
-			w[i] = Integer.parseInt(s2[i]);
+			w[i] = Integer.parseInt(s2[i-8]);
 		}
 
 		for (int i = 16; i <= 1279; i++) {
@@ -65,23 +76,12 @@ public class HC128 {
 			p[i] = w[i + 256];
 			q[i] = w[i + 768];
 		}
-		// TODO: Cambiar según pseudocodigo
+		
 		for (int i = 0; i <= 511; i++) {
-
-			// p[i] = w[i+256];
-			// q[i] = w[i+768];
+			 p[i] = (p[i]+g1(p[mod512(i-3)], p[mod512(i-511)], p[mod512(i-511)]) ^ h1(p[mod512(i-12)]));
+			 q[i] = (p[i]+g1(p[mod512(i-3)], p[mod512(i-511)], p[mod512(i-511)]) ^ h1(p[mod512(i-12)]));
 		}
 
-	}
-
-	public void generarEspacioDeLlaves() {
-
-		/*
-		 * for i = 0 → N do j = i mod 512 if (i mod 1024) < 512 then P[j] ← (P[j] +
-		 * g1(P[j ⊟ 3], P[j ⊟ 10], P[j ⊟ 511])) si = h1(P[j ⊟ 12] ⊕ P[j]) else Q[j] ←
-		 * (Q[j] + g1(Q[j ⊟ 3], Q[j ⊟ 10], Q[j ⊟ 511])) si = h2(Q[j ⊟ 12] ⊕ Q[j]) end if
-		 * i ← i + 1 end for
-		 */
 	}
 
 	/*
@@ -103,14 +103,22 @@ public class HC128 {
 		return (Integer.rotateLeft(x, 10) ^ Integer.rotateLeft(z, 23)) + Integer.rotateLeft(y, 8);
 	}
 
+	//TODO revisar
+	public int h1(int x) {
+		return q[x & 0xFF] + q[((x >> 16) & 0xFF) + 256];
+	}
 	
+	//TODO revisar
+	public int h2(int x) {
+		return p[x & 0xFF] + p[((x >> 16) & 0xFF) + 256];
+	}
 	
-//	public int h1(int x) {
-//		return q[x & 0xFF] + q[((x >> 16) & 0xFF) + 256];
-//	}
-
-//	public int h2(int x) {
-//		return p[x & 0xFF] + p[((x >> 16) & 0xFF) + 256];
-//	}
+	private static int mod512(int x) {
+        return x & 0x1FF;
+    }
+	
+	private int mod1024(int x) {
+		return x & 0x3FF;
+	}
 
 }
