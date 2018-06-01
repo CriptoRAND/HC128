@@ -28,17 +28,32 @@ public class HC128 {
 	 */
 	public byte[] encriptar(byte[] data) {
 		byte[] s = new byte[data.length];
+		int nuevoInt;
 		for (int i = 0; i < data.length; i++) {
-			 int j = mod512(i);
-			 if(mod1024(i)<512) {
-				 p[j] = (p[j] + g1(p[mod512(j-3)],p[mod512(j-10)],p[mod512(j-511)]));
-				 s[i] = (byte) h1(p[mod512(j-12)] ^ p[j]);
-			 }else {
-				 q[j] = (q[j] + g1(q[mod512(j-3)],p[mod512(j-10)],q[mod512(j-511)]));
-				 s[i] = (byte) h1(q[mod512(j-12)] ^ q[j]);
-			 }
-		 }
-		
+			if (index == 0) {
+				int j = mod512(i);
+				if (mod1024(i) < 512) {
+					p[j] = (p[j] + g1(p[mod512(j - 3)], p[mod512(j - 10)], p[mod512(j - 511)]));
+					// s[i] = (byte) h1(p[mod512(j-12)] ^ p[j]);
+					nuevoInt = h1(p[mod512(j - 12)] ^ p[j]);
+				} else {
+					q[j] = (q[j] + g1(q[mod512(j - 3)], q[mod512(j - 10)], q[mod512(j - 511)]));
+					// s[i] = (byte) h1(q[mod512(j-12)] ^ q[j]);
+					nuevoInt = h1(q[mod512(j - 12)] ^ q[j]);
+				}
+				buffer[3] = (byte) (nuevoInt & 0xFF);
+				nuevoInt >>= 8;
+				buffer[2] = (byte) (nuevoInt & 0xFF);
+				nuevoInt >>= 8;
+				buffer[1] = (byte) (nuevoInt & 0xFF);
+				nuevoInt >>= 8;
+				buffer[0] = (byte) (nuevoInt & 0xFF);
+			}
+			byte ret = buffer[index];
+			index = index + 1 & 0x3;
+			
+			s[i] = (byte) (data[i] ^ ret);
+		}
 		inicializar();
 		return s;
 	}
@@ -65,7 +80,7 @@ public class HC128 {
 		String[] s2 = String.format("%8s", Integer.toBinaryString(primerByteIV & 0xFF)).replace(' ', '0').split("");
 
 		for (int i = 8; i <= 15; i++) {
-			w[i] = Integer.parseInt(s2[i-8]);
+			w[i] = Integer.parseInt(s2[i - 8]);
 		}
 
 		for (int i = 16; i <= 1279; i++) {
@@ -76,10 +91,10 @@ public class HC128 {
 			p[i] = w[i + 256];
 			q[i] = w[i + 768];
 		}
-		
+
 		for (int i = 0; i <= 511; i++) {
-			 p[i] = (p[i]+g1(p[mod512(i-3)], p[mod512(i-511)], p[mod512(i-511)]) ^ h1(p[mod512(i-12)]));
-			 q[i] = (p[i]+g1(p[mod512(i-3)], p[mod512(i-511)], p[mod512(i-511)]) ^ h1(p[mod512(i-12)]));
+			p[i] = (p[i] + g1(p[mod512(i - 3)], p[mod512(i - 511)], p[mod512(i - 511)]) ^ h1(p[mod512(i - 12)]));
+			q[i] = (p[i] + g1(p[mod512(i - 3)], p[mod512(i - 511)], p[mod512(i - 511)]) ^ h1(p[mod512(i - 12)]));
 		}
 
 	}
@@ -103,20 +118,20 @@ public class HC128 {
 		return (Integer.rotateLeft(x, 10) ^ Integer.rotateLeft(z, 23)) + Integer.rotateLeft(y, 8);
 	}
 
-	//TODO revisar
+	// TODO revisar
 	public int h1(int x) {
 		return q[x & 0xFF] + q[((x >> 16) & 0xFF) + 256];
 	}
-	
-	//TODO revisar
+
+	// TODO revisar
 	public int h2(int x) {
 		return p[x & 0xFF] + p[((x >> 16) & 0xFF) + 256];
 	}
-	
+
 	private static int mod512(int x) {
-        return x & 0x1FF;
-    }
-	
+		return x & 0x1FF;
+	}
+
 	private int mod1024(int x) {
 		return x & 0x3FF;
 	}

@@ -10,7 +10,7 @@ public class ideone_xkHH3j
         String key_srt = "AAAAAAAAqweAAAAT";
 		 ideone_xkHH3j hc_enc = new ideone_xkHH3j(iv_srt.getBytes(), key_srt.getBytes());
 
-        String s = "Hello World";
+        String s = "da";
       
         byte[] ed = encrypt(hc_enc, s.getBytes());
         
@@ -151,9 +151,9 @@ public class ideone_xkHH3j
             int step = step();
             buf[3] = (byte) (step & 0xFF);
             step >>= 8;
-            buf[2] = (byte) (step & 0xFF);
+        	buf[2] = (byte) (step & 0xFF);
             step >>= 8;
-            buf[1] = (byte) (step & 0xFF);
+        	buf[1] = (byte) (step & 0xFF);
             step >>= 8;
             buf[0] = (byte) (step & 0xFF);
         }
