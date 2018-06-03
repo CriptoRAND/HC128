@@ -67,10 +67,8 @@ public class Cliente extends JPanel {
 						try {
 							servicio.enviarArchivo(file);
 						} catch (IOException e1) {
-							JOptionPane.showMessageDialog(null,"Error no se pudo enviar el archivo","ERROR",JOptionPane.ERROR);
+							JOptionPane.showMessageDialog(null,"Error no se pudo enviar el archivo","ERROR",JOptionPane.ERROR_MESSAGE);
 						}
-					}else{
-						JOptionPane.showMessageDialog(null,"Error no se pudo cargar el archivo","ERROR",JOptionPane.ERROR);
 					}
 					
 				}

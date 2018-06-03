@@ -9,7 +9,6 @@ import ar.edu.unlam.cripto.server.hilos.HiloConexion;
 
 public class Servidor {
 
-	
 	private int puerto;
 
 	public Servidor() {
@@ -18,9 +17,9 @@ public class Servidor {
 			servidor = new ServerSocket(puerto);
 			new HiloConexion(servidor).start();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null,"Error al aceptar clientes","Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error al aceptar clientes", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-	
+
 	}
 
 }

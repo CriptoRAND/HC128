@@ -8,13 +8,13 @@ import ar.edu.unlam.cripto.parser.HC128;
 import ar.edu.unlam.cripto.parser.Utils;
 
 public class ServicioTransmision {
-	
+
 	HC128 cipher;
-	
+
 	public ServicioTransmision() {
 		String iv_srt = "@#$$54214AEFDCAE";
-        String key_srt = "AAAAAAAAqweAAAAT";
-        cipher= new HC128(iv_srt.getBytes(),key_srt.getBytes());
+		String key_srt = "AAAAAAAAqweAAAAT";
+		cipher = new HC128(iv_srt.getBytes(), key_srt.getBytes());
 	}
 
 	public void enviarArchivo(File file) throws FileNotFoundException, IOException {
