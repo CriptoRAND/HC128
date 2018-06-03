@@ -3,14 +3,18 @@ package ar.edu.unlam.cripto.cliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 public class Cliente extends JPanel {
 
@@ -74,7 +78,23 @@ public class Cliente extends JPanel {
 				}
 			}
 		});
-		btnSubirImagen.setBounds(21, 201, 116, 23);
+		btnSubirImagen.setBounds(152, 197, 116, 23);
 		frame.getContentPane().add(btnSubirImagen);
+		
+		JLabel lblNewLabel = null;
+		  BufferedImage img;
+			try {
+				img = ImageIO.read(new File("Imagenes/000.jpg"));
+				ImageIcon icon = new ImageIcon(img);
+		          lblNewLabel = new JLabel(icon);
+		          lblNewLabel.setBounds(43, 11, 330, 166);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		frame.getContentPane().add(lblNewLabel);
+		
+	
+	         
 	}
 }
