@@ -13,7 +13,6 @@ public class HC128 {
 	private byte[] key, iv;
 	private int[] p = new int[512];
 	private int[] q = new int[512];
-	private int count = 0;
 	private byte[] buffer = new byte[4];
 	private int index = 0;
 
@@ -51,7 +50,7 @@ public class HC128 {
 			}
 			byte ret = buffer[index];
 			index = index + 1 & 0x3;
-			
+
 			s[i] = (byte) (data[i] ^ ret);
 		}
 		inicializar();
@@ -65,7 +64,6 @@ public class HC128 {
 		if (key.length != 16) {
 			throw new java.lang.IllegalArgumentException("La key debe tener 128 bits");
 		}
-		count = 0;
 		int[] w = new int[1280];
 
 		byte primerByteKey = key[0];
