@@ -13,46 +13,65 @@ import ar.edu.unlam.cripto.parser.Utils;
 public class ServicioTransmision {
 
 	private HC128 cipher;
-	private Socket cliente;
+	private Socket socketCliente;
+	private Cliente cliente;
 	private DataOutputStream salida;
 	private DataInputStream entrada;
 	private String ip;
 	private int puerto;
 	
 
-	public ServicioTransmision() throws IOException {
+	public ServicioTransmision(Cliente cliente) throws IOException {
 		ip="localhost";
 		puerto=8000;			
 		String iv_srt = "@#$$54214AEFDCAE";
 		String key_srt = "AAAAAAAAqweAAAAT";
 		
+		this.cliente = cliente;
 		cipher = new HC128(iv_srt.getBytes(), key_srt.getBytes());
-		cliente = new Socket(ip, puerto);
-		salida = new DataOutputStream(cliente.getOutputStream());
-		entrada = new DataInputStream(cliente.getInputStream());
+		socketCliente = new Socket(ip, puerto);
+		salida = new DataOutputStream(socketCliente.getOutputStream());
+		entrada = new DataInputStream(socketCliente.getInputStream());
 	}
 
 	public void enviarArchivo(File file) throws FileNotFoundException, IOException {
 		byte[] bytes = Utils.fileToByte(file);
 		bytes = cipher.encriptar(bytes);
 		salida.writeInt(bytes.length);
+		/*
 		for(byte bait : bytes) {
 			salida.writeByte(bait);
-		}
-//		salida.write(bytes);
+		}*/
+		salida.write(bytes);
 //		salida.writeUTF(file.getName());
 	}
 	
 	public void recibirArchivo() throws IOException {
-		entrada.read();
+		int cantidad = entrada.readInt();
+		System.out.println("Leyendo archivo");
+		byte[] baits = new byte[cantidad];
+		/*
+		for(int i=0;i<cantidad;i++) {
+			baits[i]=entrada.readByte();		
+		}
+		*/
+		entrada.read(baits);
+		System.out.println("termino de recibir");
+		
+		baits=cipher.encriptar(baits);
+		File file = new File("./Imagenes/temp.jpg");
+		Utils.byteToFile(baits, file);
+		cliente.setLabelText(file);
+
+		//entrada.read();
 	}
 
-	public Socket getCliente() {
-		return cliente;
+	public Socket getSocketCliente() {
+		return socketCliente;
 	}
 
-	public void setCliente(Socket cliente) {
-		this.cliente = cliente;
+	public void setSocketCliente(Socket socketCliente) {
+		this.socketCliente = socketCliente;
 	}
 	
 	

@@ -61,7 +61,7 @@ public class Cliente extends JPanel {
 		frame.getContentPane().setLayout(null);
 		fc = new JFileChooser();
 		try {
-			servicio=new ServicioTransmision();
+			servicio=new ServicioTransmision(this);
 			new Escuchador(this).start();
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block

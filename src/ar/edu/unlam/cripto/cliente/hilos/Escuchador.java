@@ -18,7 +18,7 @@ public class Escuchador extends Thread {
 	
 	public Escuchador(Cliente cliente) throws IOException {
 		this.cliente=cliente;
-		socketCliente=cliente.getServicio().getCliente();
+		socketCliente=cliente.getServicio().getSocketCliente();
 		entrada = new DataInputStream(socketCliente.getInputStream());
 		String iv_srt = "@#$$54214AEFDCAE";
 		String key_srt = "AAAAAAAAqweAAAAT";
@@ -28,20 +28,7 @@ public class Escuchador extends Thread {
 	public void run() {
 		while(true) {
 			try {
-				int cantidad = entrada.readInt();
-				System.out.println("Leyendo archivo");
-				byte[] baits = new byte[cantidad];
-				for(int i=0;i<cantidad;i++) {
-					baits[i]=entrada.readByte();		
-				}
-				System.out.println("termino de recibir");
-				
-				baits=cipher.encriptar(baits);
-				File file = new File("./Imagenes/temp.jpg");
-				Utils.byteToFile(baits, file);
-				cliente.setLabelText(file);
-				
-				
+				cliente.getServicio().recibirArchivo();				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
