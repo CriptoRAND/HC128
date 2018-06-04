@@ -38,7 +38,7 @@ public class Utils {
 
 		FileOutputStream stream = new FileOutputStream(rutaArchivo);
 		try {
-			stream.write(-1);
+//			stream.write(-1);
 			stream.write(bytes);
 		} finally {
 			stream.close();

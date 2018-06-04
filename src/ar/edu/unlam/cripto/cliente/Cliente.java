@@ -144,5 +144,18 @@ public class Cliente extends JPanel {
 		this.lblNewLabel.setIcon(null);
 		this.lblNewLabel.setText(string);		
 	}
+
+	public void setLabelText(File file) {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(file);
+			ImageIcon icon = new ImageIcon(img);
+	        lblNewLabel.setIcon(icon); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

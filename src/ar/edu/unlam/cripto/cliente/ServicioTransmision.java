@@ -35,8 +35,12 @@ public class ServicioTransmision {
 	public void enviarArchivo(File file) throws FileNotFoundException, IOException {
 		byte[] bytes = Utils.fileToByte(file);
 		bytes = cipher.encriptar(bytes);
+		salida.writeInt(bytes.length);
+		for(byte bait : bytes) {
+			salida.writeByte(bait);
+		}
 //		salida.write(bytes);
-		salida.writeUTF(file.getName());
+//		salida.writeUTF(file.getName());
 	}
 	
 	public void recibirArchivo() throws IOException {

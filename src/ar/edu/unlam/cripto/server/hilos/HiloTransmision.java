@@ -14,26 +14,37 @@ public class HiloTransmision extends Thread {
 
 	public HiloTransmision(Socket socketCliente, List<Socket> clientes) throws IOException {
 		this.socketCliente = socketCliente;
-		this.clientes=clientes;
+		this.clientes = clientes;
 		entrada = new DataInputStream(socketCliente.getInputStream());
 	}
 
 	public void run() {
-		while(true) {
+		while (true) {
 			try {
-				String string = entrada.readUTF();
-				System.out.println(string);
-				for(Socket socket : clientes) {
-					if(socket!=socketCliente) {
+				int cantidad = entrada.readInt();
+				System.out.println("Leyendo archivo");
+				byte[] baits = new byte[cantidad];
+				for (int i = 0; i < cantidad; i++) {
+					baits[i] = entrada.readByte();
+				}
+				for (Socket socket : clientes) {
+					if (socket != socketCliente) {
+						System.out.println("Servidor: Enviando eimagennviada");
 						DataOutputStream salidaCliente = new DataOutputStream(socket.getOutputStream());
-						salidaCliente.writeUTF(string);
+						salidaCliente.writeInt(cantidad);
+						for (int i = 0; i < cantidad; i++) {
+							byte bait = baits[i];
+							salidaCliente.writeByte(bait);
+						}
+						System.out.println("Servidor: Imagen enviada");
 					}
 				}
+				System.out.println("Servidor: imagenes totalmente enviadas");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
