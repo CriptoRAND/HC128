@@ -12,9 +12,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
+
+import ar.edu.unlam.cripto.cliente.hilos.Escuchador;
 
 public class Cliente extends JPanel {
 
@@ -25,7 +27,7 @@ public class Cliente extends JPanel {
 	private JFrame frame;
 	private JFileChooser fc;
 	private ServicioTransmision servicio;
-
+	private JLabel lblNewLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -58,7 +60,14 @@ public class Cliente extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		fc = new JFileChooser();
-		servicio=new ServicioTransmision();
+		try {
+			servicio=new ServicioTransmision();
+			new Escuchador(this).start();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
 		JButton btnSubirImagen = new JButton("Subir Imagen");
 		btnSubirImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,7 +90,7 @@ public class Cliente extends JPanel {
 		btnSubirImagen.setBounds(152, 197, 116, 23);
 		frame.getContentPane().add(btnSubirImagen);
 		
-		JLabel lblNewLabel = null;
+		 lblNewLabel = null;
 		  BufferedImage img;
 			try {
 				img = ImageIO.read(new File("Imagenes/000.jpg"));
@@ -92,9 +101,48 @@ public class Cliente extends JPanel {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		frame.getContentPane().add(lblNewLabel);
-		
-	
-	         
+		frame.getContentPane().add(lblNewLabel); 
 	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public JFileChooser getFc() {
+		return fc;
+	}
+
+	public void setFc(JFileChooser fc) {
+		this.fc = fc;
+	}
+
+	public ServicioTransmision getServicio() {
+		return servicio;
+	}
+
+	public void setServicio(ServicioTransmision servicio) {
+		this.servicio = servicio;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public JLabel getLblNewLabel() {
+		return lblNewLabel;
+	}
+
+	public void setLblNewLabel(JLabel lblNewLabel) {
+		this.lblNewLabel = lblNewLabel;
+	}
+
+	public void setLabelText(String string) {
+		this.lblNewLabel.setIcon(null);
+		this.lblNewLabel.setText(string);		
+	}
+	
 }

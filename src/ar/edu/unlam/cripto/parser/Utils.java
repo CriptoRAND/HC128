@@ -3,12 +3,13 @@ package ar.edu.unlam.cripto.parser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
-
 /**
  * Clase Utils con metodos varios para la operativa de algoritmo.
+ * 
  * @author Martin
  *
  */
@@ -31,5 +32,17 @@ public class Utils {
 		fileInputStreamReader.read(bytes);
 		fileInputStreamReader.close();
 		return bytes;
+	}
+
+	public static void byteToFile(byte[] bytes, File rutaArchivo) throws IOException {
+
+		FileOutputStream stream = new FileOutputStream(rutaArchivo);
+		try {
+			stream.write(-1);
+			stream.write(bytes);
+		} finally {
+			stream.close();
+		}
+
 	}
 }
