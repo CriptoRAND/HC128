@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
+import ar.edu.unlam.cripto.parser.Utils;
+
 public class HiloTransmision extends Thread {
 
 	private Socket socketCliente;
@@ -21,30 +23,41 @@ public class HiloTransmision extends Thread {
 	public void run() {
 		while (true) {
 			try {
+				Thread.sleep(50);
 				int cantidad = entrada.readInt();
+				if(cantidad<=0) {
+					continue;
+				}
 				System.out.println("Leyendo archivo");
+				System.out.println("CANTIDAD EN HILOTRANSMISION: "+cantidad);
 				byte[] baits = new byte[cantidad];
-				/*
-				for (int i = 0; i < cantidad; i++) {
-					baits[i] = entrada.readByte();
-				}*/
-				entrada.read(baits);
+				int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+				for (int i = 0; i < bloquesAEnviar; i++) {
+					Thread.sleep(50);
+					if(i != bloquesAEnviar-1) {
+						entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+					} else {
+						entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, cantidad - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+					}
+				}
 				for (Socket socket : clientes) {
 					if (socket != socketCliente) {
 						System.out.println("Servidor: Enviando eimagennviada");
 						DataOutputStream salidaCliente = new DataOutputStream(socket.getOutputStream());
 						salidaCliente.writeInt(cantidad);
-						/*
-						for (int i = 0; i < cantidad; i++) {
-							byte bait = baits[i];
-							salidaCliente.writeByte(bait);
-						}*/
-						salidaCliente.write(baits);
+						for (int i = 0; i < bloquesAEnviar; i++) {
+							if(i != bloquesAEnviar-1) {
+								salidaCliente.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+							} else {
+								salidaCliente.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, cantidad - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+							}
+							salidaCliente.flush();
+						}
 						System.out.println("Servidor: Imagen enviada");
 					}
 				}
 				System.out.println("Servidor: imagenes totalmente enviadas");
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

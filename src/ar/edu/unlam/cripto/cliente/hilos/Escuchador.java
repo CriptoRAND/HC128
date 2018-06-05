@@ -29,7 +29,7 @@ public class Escuchador extends Thread {
 		while(true) {
 			try {
 				cliente.getServicio().recibirArchivo();				
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

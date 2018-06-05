@@ -14,6 +14,10 @@ import java.math.BigInteger;
  *
  */
 public class Utils {
+	
+	//Constantes
+	
+	public static int TAMAÑO_BLOQUE_A_ENVIAR = 20000;
 
 	/*
 	 * public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int

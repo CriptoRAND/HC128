@@ -34,36 +34,45 @@ public class ServicioTransmision {
 		entrada = new DataInputStream(socketCliente.getInputStream());
 	}
 
-	public void enviarArchivo(File file) throws FileNotFoundException, IOException {
-		byte[] bytes = Utils.fileToByte(file);
-		bytes = cipher.encriptar(bytes);
-		salida.writeInt(bytes.length);
-		/*
-		for(byte bait : bytes) {
-			salida.writeByte(bait);
-		}*/
-		salida.write(bytes);
-//		salida.writeUTF(file.getName());
+	public void enviarArchivo(File file) throws FileNotFoundException, IOException, InterruptedException {
+		byte[] baits = Utils.fileToByte(file);
+		baits = cipher.encriptar(baits);
+		salida.writeInt(baits.length);
+		int bloquesAEnviar = baits.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+		for (int i = 0; i < bloquesAEnviar; i++) {
+			if(i != bloquesAEnviar-1) {
+				salida.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+			} else {
+				salida.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, baits.length - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+			}
+			salida.flush();
+		}
 	}
 	
-	public void recibirArchivo() throws IOException {
+	public void recibirArchivo() throws IOException, InterruptedException {
+		Thread.sleep(100);
 		int cantidad = entrada.readInt();
-		System.out.println("Leyendo archivo");
-		byte[] baits = new byte[cantidad];
-		/*
-		for(int i=0;i<cantidad;i++) {
-			baits[i]=entrada.readByte();		
+		if(cantidad<=0) {
+			return;
 		}
-		*/
-		entrada.read(baits);
+		System.out.println("Leyendo archivo");
+		System.out.println("CANTIDAD EN RECIBIRARCHIVO: "+cantidad);
+		byte[] baits = new byte[cantidad];
+		int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+		for (int i = 0; i < bloquesAEnviar; i++) {
+			Thread.sleep(20);
+			if(i != bloquesAEnviar-1) {
+				entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+			} else {
+				entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, cantidad - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+			}
+		}
 		System.out.println("termino de recibir");
 		
 		baits=cipher.encriptar(baits);
 		File file = new File("./Imagenes/temp.jpg");
 		Utils.byteToFile(baits, file);
 		cliente.setLabelText(file);
-
-		//entrada.read();
 	}
 
 	public Socket getSocketCliente() {
