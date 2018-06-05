@@ -60,7 +60,7 @@ public class ServicioTransmision {
 		byte[] baits = new byte[cantidad];
 		int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 		for (int i = 0; i < bloquesAEnviar; i++) {
-			Thread.sleep(20);
+			Thread.sleep(10);
 			if(i != bloquesAEnviar-1) {
 				entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {

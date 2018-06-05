@@ -23,7 +23,7 @@ public class HiloTransmision extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				Thread.sleep(50);
+				Thread.sleep(100);
 				int cantidad = entrada.readInt();
 				if(cantidad<=0) {
 					continue;
