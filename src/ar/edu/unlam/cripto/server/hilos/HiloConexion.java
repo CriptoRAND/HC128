@@ -21,6 +21,7 @@ public class HiloConexion extends Thread {
 		try {
 			while(true) {
 				Socket cliente = servidor.accept();
+				cliente.setTcpNoDelay(true);
 				clientes.add(cliente);
 				System.out.println("Cliente aceptado y esperando transmisión");
 				new HiloTransmision(cliente,clientes).start();				

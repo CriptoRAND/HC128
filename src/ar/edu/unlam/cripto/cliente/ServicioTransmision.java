@@ -30,11 +30,13 @@ public class ServicioTransmision {
 		this.cliente = cliente;
 		cipher = new HC128(iv_srt.getBytes(), key_srt.getBytes());
 		socketCliente = new Socket(ip, puerto);
+		socketCliente.setTcpNoDelay(true);
 		salida = new DataOutputStream(socketCliente.getOutputStream());
 		entrada = new DataInputStream(socketCliente.getInputStream());
 	}
 
-	public void enviarArchivo(File file) throws FileNotFoundException, IOException, InterruptedException {
+	public  void enviarArchivo(File file) throws FileNotFoundException, IOException, InterruptedException {
+		
 		byte[] baits = Utils.fileToByte(file);
 		baits = cipher.encriptar(baits);
 		salida.writeInt(baits.length);
@@ -45,12 +47,13 @@ public class ServicioTransmision {
 			} else {
 				salida.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, baits.length - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 			}
+			Thread.sleep(50);
 			salida.flush();
 		}
 	}
 	
-	public void recibirArchivo() throws IOException, InterruptedException {
-		Thread.sleep(100);
+	public  void recibirArchivo() throws IOException, InterruptedException {
+//		Thread.sleep(100);
 		int cantidad = entrada.readInt();
 		if(cantidad<=0) {
 			return;
@@ -60,7 +63,7 @@ public class ServicioTransmision {
 		byte[] baits = new byte[cantidad];
 		int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 		for (int i = 0; i < bloquesAEnviar; i++) {
-			Thread.sleep(10);
+//			Thread.sleep(10);
 			if(i != bloquesAEnviar-1) {
 				entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {
