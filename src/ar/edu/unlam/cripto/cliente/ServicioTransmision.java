@@ -3,13 +3,17 @@ package ar.edu.unlam.cripto.cliente;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.SocketException;
+
+import javax.imageio.ImageIO;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
@@ -84,9 +88,11 @@ public class ServicioTransmision {
 		System.out.println("termino de recibir");
 		
 		baits=cipher.encriptar(baits);
-		File file = new File("./Imagenes/temp.jpg");
-		Utils.byteToFile(baits, file);
-		cliente.setLabelText(file);
+//		File file = new File("./Imagenes/temp.jpg");
+//		Utils.byteToFile(baits, file);
+		InputStream in = new ByteArrayInputStream(baits);
+		BufferedImage bImageFromConvert = ImageIO.read(in);
+		cliente.setLabelText(bImageFromConvert);
 	}
 
 	public Socket getSocketCliente() {

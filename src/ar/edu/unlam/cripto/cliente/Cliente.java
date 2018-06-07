@@ -187,4 +187,9 @@ public class Cliente extends JPanel {
 		}
 		
 	}
+
+	public void setLabelText(BufferedImage img) {
+			ImageIcon icon = new ImageIcon(img);
+	        lblNewLabel.setIcon(icon); 
+	}
 }
