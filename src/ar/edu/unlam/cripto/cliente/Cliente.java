@@ -3,6 +3,8 @@ package ar.edu.unlam.cripto.cliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -56,8 +58,8 @@ public class Cliente extends JPanel {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 800, 600);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		fc = new JFileChooser();
 		try {
@@ -87,7 +89,7 @@ public class Cliente extends JPanel {
 				}
 			}
 		});
-		btnSubirImagen.setBounds(152, 197, 116, 23);
+		btnSubirImagen.setBounds(26, 515, 116, 23);
 		frame.getContentPane().add(btnSubirImagen);
 		
 		 lblNewLabel = null;
@@ -96,12 +98,40 @@ public class Cliente extends JPanel {
 				img = ImageIO.read(new File("Imagenes/000.jpg"));
 				ImageIcon icon = new ImageIcon(img);
 		          lblNewLabel = new JLabel(icon);
-		          lblNewLabel.setBounds(43, 11, 330, 166);
+		          lblNewLabel.setBounds(43, 11, 731, 493);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		frame.getContentPane().add(lblNewLabel); 
+		
+		JButton btnNewButton = new JButton("Streaming");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					servicio.stremear();
+				} catch (InterruptedException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+		});
+		btnNewButton.setBounds(163, 515, 89, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		 frame.addWindowListener(new WindowAdapter() {
+	         @Override
+	         public void windowClosing(WindowEvent e) {
+	        	 try {
+					servicio.cerrarCliente();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}finally {
+					System.exit(0);
+				}
+	         }
+	      });
 	}
 
 	public JFrame getFrame() {
@@ -157,5 +187,4 @@ public class Cliente extends JPanel {
 		}
 		
 	}
-	
 }

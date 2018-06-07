@@ -1,11 +1,18 @@
 package ar.edu.unlam.cripto.cliente;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
+
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamResolution;
 
 import ar.edu.unlam.cripto.parser.HC128;
 import ar.edu.unlam.cripto.parser.Utils;
@@ -38,6 +45,10 @@ public class ServicioTransmision {
 	public  void enviarArchivo(File file) throws FileNotFoundException, IOException, InterruptedException {
 		
 		byte[] baits = Utils.fileToByte(file);
+		enviarBytes(baits);
+	}
+
+	private void enviarBytes(byte[] baits) throws IOException, InterruptedException {
 		baits = cipher.encriptar(baits);
 		salida.writeInt(baits.length);
 		int bloquesAEnviar = baits.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
@@ -52,8 +63,8 @@ public class ServicioTransmision {
 		}
 	}
 	
-	public  void recibirArchivo() throws IOException, InterruptedException {
-//		Thread.sleep(100);
+	public  void recibirArchivo() throws IOException, InterruptedException,SocketException {
+	
 		int cantidad = entrada.readInt();
 		if(cantidad<=0) {
 			return;
@@ -84,6 +95,39 @@ public class ServicioTransmision {
 
 	public void setSocketCliente(Socket socketCliente) {
 		this.socketCliente = socketCliente;
+	}
+
+	public void cerrarCliente() throws IOException {
+		salida.writeInt(Integer.MIN_VALUE);
+		salida.flush();
+		if(!socketCliente.isClosed()) {
+			this.socketCliente.close();					
+		}
+	}
+
+	public void stremear() throws InterruptedException, IOException {
+		File file = new File("output.ts");
+		Dimension size = WebcamResolution.QVGA.getSize();
+
+		Webcam webcam = Webcam.getDefault();
+		webcam.setViewSize(size);
+		webcam.open(true);
+
+		long start = System.currentTimeMillis();
+
+		for (int i = 0; i < 50; i++) {
+			BufferedImage image=webcam.getImage();
+			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
+			// 10 FPS
+			enviarBytes(imageBytes);
+			Thread.sleep(100);
+			
+		}
+
+//		writer.close();
+
+		System.out.println("Video recorded in file: " + file.getAbsolutePath());
+		
 	}
 	
 	

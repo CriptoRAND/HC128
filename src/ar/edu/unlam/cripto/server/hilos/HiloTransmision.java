@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
+import com.sun.beans.editors.IntegerEditor;
+
 import ar.edu.unlam.cripto.parser.Utils;
 
 public class HiloTransmision extends Thread {
@@ -25,6 +27,10 @@ public class HiloTransmision extends Thread {
 			try {
 //				Thread.sleep(100);
 				int cantidad = entrada.readInt();
+				if(cantidad==Integer.MIN_VALUE) {
+					socketCliente.close();
+					break;
+				}
 				if(cantidad<=0) {
 					continue;
 				}
@@ -58,7 +64,7 @@ public class HiloTransmision extends Thread {
 					}
 				}
 				System.out.println("Servidor: imagenes totalmente enviadas");
-			} catch (IOException | InterruptedException e) {
+			} catch (IOException | InterruptedException  e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
