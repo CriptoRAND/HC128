@@ -112,7 +112,7 @@ public class ServicioTransmision {
 	}
 
 	public void stremear() throws InterruptedException, IOException {
-		File file = new File("output.ts");
+
 		Dimension size = WebcamResolution.QVGA.getSize();
 
 		Webcam webcam = Webcam.getDefault();
@@ -123,17 +123,17 @@ public class ServicioTransmision {
 
 		for (int i = 0; i < 50; i++) {
 			BufferedImage image=webcam.getImage();
-			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
+			byte[] imageBytes = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 			// 10 FPS
-			enviarBytes(imageBytes);
+			File fileCam = new File("./Imagenes/camara.jpg");
+			ImageIO.write(image,"jpg",fileCam);
+			enviarArchivo(fileCam);
 			Thread.sleep(100);
 			
 		}
-
-//		writer.close();
-
-		System.out.println("Video recorded in file: " + file.getAbsolutePath());
 		
+		webcam.close();
+
 	}
 	
 	
