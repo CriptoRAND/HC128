@@ -2,7 +2,6 @@ package ar.edu.unlam.cripto.cliente;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -119,16 +118,15 @@ public class ServicioTransmision {
 		webcam.setViewSize(size);
 		webcam.open(true);
 
-		long start = System.currentTimeMillis();
+
 
 		for (int i = 0; i < 50; i++) {
 			BufferedImage image=webcam.getImage();
-			byte[] imageBytes = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-			// 10 FPS
 			File fileCam = new File("./Imagenes/camara.jpg");
 			ImageIO.write(image,"jpg",fileCam);
 			enviarArchivo(fileCam);
-			Thread.sleep(100);
+			//Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la cristi funcionó
+//			Thread.sleep(100);
 			
 		}
 		

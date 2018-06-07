@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
-import com.sun.beans.editors.IntegerEditor;
-
 import ar.edu.unlam.cripto.parser.Utils;
 
 public class HiloTransmision extends Thread {
