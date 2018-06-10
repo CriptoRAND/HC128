@@ -62,9 +62,8 @@ public class HiloTransmision extends Thread {
 					}
 				}
 				System.out.println("Servidor: imagenes totalmente enviadas");
-			} catch (IOException | InterruptedException  e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception  e) {
+				System.out.println("Error transmisión: " + e.getMessage());
 			}
 
 		}
