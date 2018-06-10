@@ -33,11 +33,9 @@ public class HC128 {
 				int j = mod512(i);
 				if (mod1024(i) < 512) {
 					p[j] = (p[j] + g1(p[mod512(j - 3)], p[mod512(j - 10)], p[mod512(j - 511)]));
-					// s[i] = (byte) h1(p[mod512(j-12)] ^ p[j]);
 					nuevoInt = h1(p[mod512(j - 12)] ^ p[j]);
 				} else {
 					q[j] = (q[j] + g1(q[mod512(j - 3)], q[mod512(j - 10)], q[mod512(j - 511)]));
-					// s[i] = (byte) h1(q[mod512(j-12)] ^ q[j]);
 					nuevoInt = h1(q[mod512(j - 12)] ^ q[j]);
 				}
 				buffer[3] = (byte) (nuevoInt & 0xFF);
@@ -116,12 +114,10 @@ public class HC128 {
 		return (Integer.rotateLeft(x, 10) ^ Integer.rotateLeft(z, 23)) + Integer.rotateLeft(y, 8);
 	}
 
-	// TODO revisar
 	public int h1(int x) {
 		return q[x & 0xFF] + q[((x >> 16) & 0xFF) + 256];
 	}
 
-	// TODO revisar
 	public int h2(int x) {
 		return p[x & 0xFF] + p[((x >> 16) & 0xFF) + 256];
 	}
