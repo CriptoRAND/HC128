@@ -3,13 +3,12 @@ package ar.edu.unlam.cripto.cliente;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -17,9 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import ar.edu.unlam.cripto.cliente.hilos.Escuchador;
-import javax.swing.Icon;
 
 public class Cliente extends JPanel {
 
@@ -130,20 +126,6 @@ public class Cliente extends JPanel {
 		label_1 = new JLabel((Icon) null);
 		label_1.setBounds(537, 35, 237, 291);
 		frame.getContentPane().add(label_1);
-		
-		 frame.addWindowListener(new WindowAdapter() {
-	         @Override
-	         public void windowClosing(WindowEvent e) {
-	        	 try {
-					servicio.cerrarCliente();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}finally {
-					System.exit(0);
-				}
-	         }
-	      });
 	}
 
 	public JFrame getFrame() {
