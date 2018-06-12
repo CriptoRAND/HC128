@@ -43,38 +43,32 @@ public class ServicioTransmision {
 			BufferedImage image = webcam.getImage();
 			File fileCam = new File("./Imagenes/camara.jpg");
 			ImageIO.write(image, "jpg", fileCam);
-			// byte[] imageBytes = ((DataBufferByte)
-			// image.getData().getDataBuffer()).getData();
-			// enviarBytes(imageBytes);
-			// enviarArchivo(fileCam);
-			encriptarArchivo(fileCam);
-			// Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la
-			// cristi funcionó
-			// Thread.sleep(100);
 
+			byte[] baits =encriptarArchivo(fileCam);
+			baits = encriptarBytes(baits);
 		}
 
 		webcam.close();
-
 	}
 
-	public void encriptarArchivo(File file) throws FileNotFoundException, IOException {
+	public byte[] encriptarArchivo(File file) throws FileNotFoundException, IOException {
 		byte[] baits = Utils.fileToByte(file);
 		cliente.setLabelText(file);
 		encriptarBytes(baits);
-
+		return baits;
 	}
 
-	public void encriptarBytes(byte[] baits) throws IOException {
+	public byte[] encriptarBytes(byte[] baits) throws IOException {
 		baits = cipher.encriptar(baits);
 		InputStream in = new ByteArrayInputStream(baits);
-		BufferedImage imagenEncriptada = ImageIO.read(in);
-		cliente.setLabelEncriptadoText(imagenEncriptada);
+		// BufferedImage imagenEncriptada = ImageIO.read(in);
+		// cliente.setLabelEncriptadoText(imagenEncriptada);
 
 		baits = cipher.encriptar(baits);
 		in = new ByteArrayInputStream(baits);
 		BufferedImage imagenDesencriptada = ImageIO.read(in);
 		cliente.setLabelDesencriptadoText(imagenDesencriptada);
+		return baits;
 
 	}
 
