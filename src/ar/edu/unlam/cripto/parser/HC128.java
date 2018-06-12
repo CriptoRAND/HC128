@@ -59,6 +59,7 @@ public class HC128 {
 	 * Funciones varias principales del algoritmo
 	 */
 	public void inicializar() {
+		index=0;
 		if (key.length != 16) {
 			throw new java.lang.IllegalArgumentException("La key debe tener 128 bits");
 		}
