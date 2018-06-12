@@ -30,17 +30,17 @@ public class ServicioTransmision {
 	private int puerto;
 
 	public ServicioTransmision(Cliente cliente) throws IOException {
-		ip = "localhost";
-		puerto = 8000;
+//		ip = "192.168.0.105";
+//		puerto = 8000;
 		String iv_srt = "@#$$54214AEFDCAE";
 		String key_srt = "AAAAAAAAqweAAAAT";
 
 		this.cliente = cliente;
 		cipher = new HC128(iv_srt.getBytes(), key_srt.getBytes());
-		socketCliente = new Socket(ip, puerto);
-		socketCliente.setTcpNoDelay(true);
-		salida = new DataOutputStream(socketCliente.getOutputStream());
-		entrada = new DataInputStream(socketCliente.getInputStream());
+//		socketCliente = new Socket(ip, puerto);
+//		socketCliente.setTcpNoDelay(true);
+//		salida = new DataOutputStream(socketCliente.getOutputStream());
+//		entrada = new DataInputStream(socketCliente.getInputStream());
 	}
 
 	public void enviarArchivo(File file) throws FileNotFoundException, IOException, InterruptedException {
@@ -50,7 +50,7 @@ public class ServicioTransmision {
 	}
 
 	private void enviarBytes(byte[] baits) throws IOException, InterruptedException {
-		
+
 		baits = cipher.encriptar(baits);
 		salida.writeInt(baits.length);
 		int bloquesAEnviar = baits.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
@@ -126,8 +126,9 @@ public class ServicioTransmision {
 			BufferedImage image = webcam.getImage();
 			File fileCam = new File("./Imagenes/camara.jpg");
 			ImageIO.write(image, "jpg", fileCam);
-//			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
-//			enviarBytes(imageBytes);
+			// byte[] imageBytes = ((DataBufferByte)
+			// image.getData().getDataBuffer()).getData();
+			// enviarBytes(imageBytes);
 			enviarArchivo(fileCam);
 			// Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la
 			// cristi funcionó
@@ -136,6 +137,26 @@ public class ServicioTransmision {
 		}
 
 		webcam.close();
+
+	}
+
+	public void encriptarArchivo(File file) throws FileNotFoundException, IOException {
+		byte[] baits = Utils.fileToByte(file);
+		cliente.setLabelText(file);
+		encriptarBytes(baits);
+
+	}
+
+	public void encriptarBytes(byte[] baits) throws IOException {
+		baits = cipher.encriptar(baits);
+//		InputStream in = new ByteArrayInputStream(baits);
+//		BufferedImage imagenEncriptada = ImageIO.read(in);
+//		cliente.setLabelEncriptadoText(bImageFromConvert);
+
+		baits = cipher.encriptar(baits);
+		ByteArrayInputStream in = new ByteArrayInputStream(baits);
+		BufferedImage imagenDesencriptada = ImageIO.read(in);
+		cliente.setLabelDesencriptadoText(imagenDesencriptada);
 
 	}
 

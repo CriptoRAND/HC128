@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ar.edu.unlam.cripto.cliente.hilos.Escuchador;
+import javax.swing.Icon;
 
 public class Cliente extends JPanel {
 
@@ -30,6 +31,8 @@ public class Cliente extends JPanel {
 	private JFileChooser fc;
 	private ServicioTransmision servicio;
 	private JLabel lblNewLabel;
+	private JLabel label;
+	private JLabel label_1;
 	/**
 	 * Launch the application.
 	 */
@@ -58,13 +61,13 @@ public class Cliente extends JPanel {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 800, 505);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		fc = new JFileChooser();
 		try {
 			servicio=new ServicioTransmision(this);
-			new Escuchador(this).start();
+//			new Escuchador(this).start();
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -80,8 +83,9 @@ public class Cliente extends JPanel {
 						File file = fc.getSelectedFile();
 						JOptionPane.showMessageDialog(null,"El archivo cargado es: " + file.getName(),"Exito",JOptionPane.INFORMATION_MESSAGE);
 						try {
-							servicio.enviarArchivo(file);
-						} catch (IOException | InterruptedException e1) {
+//							servicio.enviarArchivo(file);
+							servicio.encriptarArchivo(file);
+						} catch (IOException e1) {
 							JOptionPane.showMessageDialog(null,"Error no se pudo enviar el archivo","ERROR",JOptionPane.ERROR_MESSAGE);
 						}
 					}
@@ -89,7 +93,7 @@ public class Cliente extends JPanel {
 				}
 			}
 		});
-		btnSubirImagen.setBounds(26, 515, 116, 23);
+		btnSubirImagen.setBounds(235, 404, 116, 23);
 		frame.getContentPane().add(btnSubirImagen);
 		
 		 lblNewLabel = null;
@@ -98,7 +102,7 @@ public class Cliente extends JPanel {
 				img = ImageIO.read(new File("Imagenes/000.jpg"));
 				ImageIcon icon = new ImageIcon(img);
 		          lblNewLabel = new JLabel(icon);
-		          lblNewLabel.setBounds(43, 11, 731, 493);
+		          lblNewLabel.setBounds(23, 35, 237, 291);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -116,8 +120,16 @@ public class Cliente extends JPanel {
 				}				
 			}
 		});
-		btnNewButton.setBounds(163, 515, 89, 23);
+		btnNewButton.setBounds(473, 404, 89, 23);
 		frame.getContentPane().add(btnNewButton);
+		
+		label = new JLabel((Icon) null);
+		label.setBounds(288, 35, 237, 291);
+		frame.getContentPane().add(label);
+		
+		label_1 = new JLabel((Icon) null);
+		label_1.setBounds(537, 35, 237, 291);
+		frame.getContentPane().add(label_1);
 		
 		 frame.addWindowListener(new WindowAdapter() {
 	         @Override
@@ -191,5 +203,15 @@ public class Cliente extends JPanel {
 	public void setLabelText(BufferedImage img) {
 			ImageIcon icon = new ImageIcon(img);
 	        lblNewLabel.setIcon(icon); 
+	}
+
+	public void setLabelEncriptadoText(BufferedImage img) {
+		ImageIcon icon = new ImageIcon(img);
+        label.setIcon(icon); 
+	}
+	
+	public void setLabelDesencriptadoText(BufferedImage img) {
+		ImageIcon icon = new ImageIcon(img);
+        label_1.setIcon(icon); 
 	}
 }

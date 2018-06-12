@@ -59,11 +59,11 @@ public class HC128 {
 	 * Funciones varias principales del algoritmo
 	 */
 	public void inicializar() {
+		index=0;
 		if (key.length != 16) {
 			throw new java.lang.IllegalArgumentException("La key debe tener 128 bits");
 		}
 		int[] w = new int[1280];
-
 		byte primerByteKey = key[0];
 
 		String[] s1 = String.format("%8s", Integer.toBinaryString(primerByteKey & 0xFF)).replace(' ', '0').split("");
