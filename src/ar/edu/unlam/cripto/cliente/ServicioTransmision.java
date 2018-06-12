@@ -64,12 +64,18 @@ public class ServicioTransmision {
 		// BufferedImage imagenEncriptada = ImageIO.read(in);
 		// cliente.setLabelEncriptadoText(imagenEncriptada);
 
-		baits = cipher.encriptar(baits);
-		in = new ByteArrayInputStream(baits);
+		baits = desencriptarBytes(baits);
+		return baits;
+		
+
+	}
+	
+	public byte[] desencriptarBytes(byte[] baits) throws IOException {
+		baits= cipher.encriptar(baits);
+		ByteArrayInputStream in = new ByteArrayInputStream(baits);
 		BufferedImage imagenDesencriptada = ImageIO.read(in);
 		cliente.setLabelDesencriptadoText(imagenDesencriptada);
 		return baits;
-
 	}
 
 }
