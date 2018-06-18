@@ -66,8 +66,6 @@ public class Cliente extends JPanel {
 			servicio=new ServicioTransmision(this);
 			new Escuchador(this).start();
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
 		}
 		
 		JButton btnSubirImagen = new JButton("Subir Imagen");
@@ -100,8 +98,6 @@ public class Cliente extends JPanel {
 		          lblNewLabel = new JLabel(icon);
 		          lblNewLabel.setBounds(43, 11, 731, 493);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 		frame.getContentPane().add(lblNewLabel); 
 		
@@ -111,8 +107,6 @@ public class Cliente extends JPanel {
 				try {
 					servicio.stremear();
 				} catch (InterruptedException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}				
 			}
 		});
@@ -125,8 +119,6 @@ public class Cliente extends JPanel {
 	        	 try {
 					servicio.cerrarCliente();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}finally {
 					System.exit(0);
 				}
@@ -182,8 +174,6 @@ public class Cliente extends JPanel {
 			ImageIcon icon = new ImageIcon(img);
 	        lblNewLabel.setIcon(icon); 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 	}
