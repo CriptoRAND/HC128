@@ -94,7 +94,7 @@ public class ServicioTransmision {
 			BufferedImage bImageFromConvert = ImageIO.read(in);
 			cliente.setLabelText(bImageFromConvert);
 		} catch (Exception e) {
-			System.out.println("Error al recibir: " + e.getMessage());
+			System.out.println("Error al recibir(ServicioTransmision): " + e.getMessage());
 		}
 	}
 
@@ -115,27 +115,36 @@ public class ServicioTransmision {
 	}
 
 	public void stremear() throws InterruptedException, IOException {
-
-		Dimension size = WebcamResolution.QVGA.getSize();
-
-		Webcam webcam = Webcam.getDefault();
-		webcam.setViewSize(size);
-		webcam.open(true);
-
-		for (int i = 0; i < 500; i++) {
-			BufferedImage image = webcam.getImage();
-			File fileCam = new File("./Imagenes/camara.jpg");
-			ImageIO.write(image, "jpg", fileCam);
-//			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
-//			enviarBytes(imageBytes);
-			enviarArchivo(fileCam);
-			// Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la
-			// cristi funcionó
-			// Thread.sleep(100);
-
+		Webcam webcam = null;
+		try {
+					
+			Dimension size = WebcamResolution.QVGA.getSize();
+			
+			webcam = Webcam.getDefault();
+			webcam.setViewSize(size);
+			webcam.open(true);
+	
+			for (int i = 0; i < 500; i++) {
+				BufferedImage image = webcam.getImage();
+				File fileCam = new File("./Imagenes/camara.jpg");
+				ImageIO.write(image, "jpg", fileCam);
+		//			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
+		//			enviarBytes(imageBytes);
+				enviarArchivo(fileCam);
+				// Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la
+				// cristi funcionó
+				// Thread.sleep(100);
+		
 		}
 
-		webcam.close();
+			
+		}catch(Exception e) {
+			System.out.println("Error en Servicio Transmision: "+ e.getMessage());
+		}finally {
+			if(webcam!=null && webcam.isOpen()) {
+				webcam.close();
+			}
+		}
 
 	}
 

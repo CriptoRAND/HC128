@@ -98,6 +98,7 @@ public class Cliente extends JPanel {
 		          lblNewLabel = new JLabel(icon);
 		          lblNewLabel.setBounds(43, 11, 731, 493);
 			} catch (IOException e1) {
+				System.out.println("Error en cliente: "+ e1.getMessage());
 			}
 		frame.getContentPane().add(lblNewLabel); 
 		
@@ -106,7 +107,8 @@ public class Cliente extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					servicio.stremear();
-				} catch (InterruptedException | IOException e) {
+				} catch (Exception e) {
+					System.out.println("Error en cliente: "+ e.getMessage());
 				}				
 			}
 		});
@@ -119,6 +121,7 @@ public class Cliente extends JPanel {
 	        	 try {
 					servicio.cerrarCliente();
 				} catch (IOException e1) {
+					System.out.println("Error en cliente: "+ e1.getMessage());
 				}finally {
 					System.exit(0);
 				}
