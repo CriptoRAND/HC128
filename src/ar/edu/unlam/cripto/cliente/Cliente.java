@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ar.edu.unlam.cripto.cliente.hilos.Escuchador;
+import javax.swing.Icon;
 
 public class Cliente extends JPanel {
 
@@ -30,6 +31,7 @@ public class Cliente extends JPanel {
 	private JFileChooser fc;
 	private ServicioTransmision servicio;
 	private JLabel lblNewLabel;
+	private JLabel label;
 	/**
 	 * Launch the application.
 	 */
@@ -96,7 +98,7 @@ public class Cliente extends JPanel {
 				img = ImageIO.read(new File("Imagenes/000.jpg"));
 				ImageIcon icon = new ImageIcon(img);
 		          lblNewLabel = new JLabel(icon);
-		          lblNewLabel.setBounds(43, 11, 731, 493);
+		          lblNewLabel.setBounds(437, 11, 337, 493);
 			} catch (IOException e1) {
 				System.out.println("Error en cliente: "+ e1.getMessage());
 			}
@@ -114,6 +116,10 @@ public class Cliente extends JPanel {
 		});
 		btnNewButton.setBounds(163, 515, 89, 23);
 		frame.getContentPane().add(btnNewButton);
+		
+		label = new JLabel((Icon) null);
+		label.setBounds(46, 11, 337, 493);
+		frame.getContentPane().add(label);
 		
 		 frame.addWindowListener(new WindowAdapter() {
 	         @Override
@@ -184,5 +190,22 @@ public class Cliente extends JPanel {
 	public void setLabelText(BufferedImage img) {
 			ImageIcon icon = new ImageIcon(img);
 	        lblNewLabel.setIcon(icon); 
+	}
+	
+	
+	public void setLabelEncriptadoText(File file) {
+		BufferedImage img;
+		try {
+			img = ImageIO.read(file);
+			ImageIcon icon = new ImageIcon(img);
+	        label.setIcon(icon); 
+		} catch (IOException e) {
+		}
+		
+	}
+
+	public void setLabelEncriptadoText(BufferedImage img) {
+			ImageIcon icon = new ImageIcon(img);
+	        label.setIcon(icon); 
 	}
 }

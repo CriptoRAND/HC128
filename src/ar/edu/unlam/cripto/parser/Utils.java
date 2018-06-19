@@ -18,6 +18,7 @@ public class Utils {
 	//Constantes
 	
 	public static int TAMAÑO_BLOQUE_A_ENVIAR = 20000;
+	public static Integer HEADER_LENGTH = 54;
 
 	/*
 	 * public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int
@@ -48,5 +49,16 @@ public class Utils {
 			stream.close();
 		}
 
+	}
+
+	public static void byteToFile(byte[] bytesHeader, byte[] bytes, File rutaArchivo) throws IOException {
+		FileOutputStream stream = new FileOutputStream(rutaArchivo);
+		try {
+			stream.write(bytesHeader);
+			stream.write(bytes);
+		} finally {
+			stream.close();
+		}
+		
 	}
 }

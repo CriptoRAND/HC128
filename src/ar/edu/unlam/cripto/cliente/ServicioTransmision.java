@@ -2,13 +2,11 @@ package ar.edu.unlam.cripto.cliente;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.Socket;
 
 import javax.imageio.ImageIO;
@@ -28,7 +26,8 @@ public class ServicioTransmision {
 	private DataInputStream entrada;
 	private String ip;
 	private int puerto;
-
+	
+	
 	public ServicioTransmision(Cliente cliente) throws IOException {
 		ip = "localhost";
 		puerto = 8000;
@@ -51,15 +50,32 @@ public class ServicioTransmision {
 
 	private void enviarBytes(byte[] baits) throws IOException, InterruptedException {
 		
-		baits = cipher.encriptar(baits);
-		salida.writeInt(baits.length);
-		int bloquesAEnviar = baits.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+		byte bytesHeader [] = new byte[Utils.HEADER_LENGTH];
+
+        for (int i = 0; i < Utils.HEADER_LENGTH; i ++){
+            bytesHeader[i] = baits[i];
+        }
+        
+        byte bytesBody [] = new byte[baits.length - Utils.HEADER_LENGTH];
+
+        //for flashero 
+        for (int i = 0, j = Utils.HEADER_LENGTH; i < baits.length - Utils.HEADER_LENGTH ; i ++, j++){
+            bytesBody[i] = baits[j];
+        }
+
+		
+        bytesBody = cipher.encriptar(bytesBody);
+        
+		salida.writeInt(bytesBody.length);
+		int bloquesAEnviar = bytesBody.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+		
+		salida.write(bytesHeader,0,Utils.HEADER_LENGTH);
+		Thread.sleep(50);
 		for (int i = 0; i < bloquesAEnviar; i++) {
 			if (i != bloquesAEnviar - 1) {
-				salida.write(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {
-				salida.write(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR,
-						baits.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, bytesBody.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 			}
 			Thread.sleep(50);
 			salida.flush();
@@ -74,6 +90,11 @@ public class ServicioTransmision {
 			}
 			System.out.println("Leyendo archivo");
 			System.out.println("CANTIDAD EN RECIBIRARCHIVO: " + cantidad);
+			
+			
+			byte bytesHeader [] = new byte[Utils.HEADER_LENGTH];
+			entrada.read(bytesHeader,0,Utils.HEADER_LENGTH);
+			
 			byte[] baits = new byte[cantidad];
 			int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 			for (int i = 0; i < bloquesAEnviar; i++) {
@@ -81,18 +102,20 @@ public class ServicioTransmision {
 				if (i != bloquesAEnviar - 1) {
 					entrada.read(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 				} else {
-					entrada.read(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR,
-							cantidad - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+					entrada.read(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, cantidad - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 				}
 			}
 			System.out.println("termino de recibir");
 
+			File fileEncriptado = new File("./Imagenes/temp.bmp");
+			Utils.byteToFile(bytesHeader,baits, fileEncriptado);
+			cliente.setLabelEncriptadoText(fileEncriptado);
+			
+			
 			baits = cipher.encriptar(baits);
-			// File file = new File("./Imagenes/temp.jpg");
-			// Utils.byteToFile(baits, file);
-			InputStream in = new ByteArrayInputStream(baits);
-			BufferedImage bImageFromConvert = ImageIO.read(in);
-			cliente.setLabelText(bImageFromConvert);
+			File file = new File("./Imagenes/temp.bmp");
+			Utils.byteToFile(bytesHeader,baits, file);
+			cliente.setLabelText(file);
 		} catch (Exception e) {
 			System.out.println("Error al recibir(ServicioTransmision): " + e.getMessage());
 		}
@@ -126,8 +149,8 @@ public class ServicioTransmision {
 	
 			for (int i = 0; i < 500; i++) {
 				BufferedImage image = webcam.getImage();
-				File fileCam = new File("./Imagenes/camara.jpg");
-				ImageIO.write(image, "jpg", fileCam);
+				File fileCam = new File("./Imagenes/camara.bmp");
+				ImageIO.write(image, "bmp", fileCam);
 		//			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
 		//			enviarBytes(imageBytes);
 				enviarArchivo(fileCam);

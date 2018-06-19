@@ -32,6 +32,10 @@ public class HiloTransmision extends Thread {
 				if(cantidad<=0) {
 					continue;
 				}
+				
+				byte bytesHeader [] = new byte[Utils.HEADER_LENGTH];
+				entrada.read(bytesHeader,0,Utils.HEADER_LENGTH);
+				
 				System.out.println("Leyendo archivo");
 				System.out.println("CANTIDAD EN HILOTRANSMISION: "+cantidad);
 				byte[] baits = new byte[cantidad];
@@ -49,6 +53,8 @@ public class HiloTransmision extends Thread {
 						System.out.println("Servidor: Enviando eimagennviada");
 						DataOutputStream salidaCliente = new DataOutputStream(socket.getOutputStream());
 						salidaCliente.writeInt(cantidad);
+						
+						salidaCliente.write(bytesHeader,0,Utils.HEADER_LENGTH);
 						for (int i = 0; i < bloquesAEnviar; i++) {
 							if(i != bloquesAEnviar-1) {
 								salidaCliente.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
