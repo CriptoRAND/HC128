@@ -1,5 +1,6 @@
 package ar.edu.unlam.cripto.cliente;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ar.edu.unlam.cripto.cliente.hilos.Escuchador;
+
 import javax.swing.Icon;
 
 public class Cliente extends JPanel {
@@ -32,6 +34,9 @@ public class Cliente extends JPanel {
 	private ServicioTransmision servicio;
 	private JLabel lblNewLabel;
 	private JLabel label;
+	private JLabel lblTitulo;
+	private JLabel lblTitulo2;
+
 	/**
 	 * Launch the application.
 	 */
@@ -65,74 +70,94 @@ public class Cliente extends JPanel {
 		frame.getContentPane().setLayout(null);
 		fc = new JFileChooser();
 		try {
-			servicio=new ServicioTransmision(this);
+			servicio = new ServicioTransmision(this);
 			new Escuchador(this).start();
 		} catch (IOException e2) {
 		}
-		
-		JButton btnSubirImagen = new JButton("Subir Imagen");
-		btnSubirImagen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (e.getSource() == btnSubirImagen) {
-					int returnVal = fc.showOpenDialog(Cliente.this);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						JOptionPane.showMessageDialog(null,"El archivo cargado es: " + file.getName(),"Exito",JOptionPane.INFORMATION_MESSAGE);
-						try {
-							servicio.enviarArchivo(file);
-						} catch (IOException | InterruptedException e1) {
-							JOptionPane.showMessageDialog(null,"Error no se pudo enviar el archivo","ERROR",JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					
-				}
-			}
-		});
-		btnSubirImagen.setBounds(26, 515, 116, 23);
-		frame.getContentPane().add(btnSubirImagen);
-		
-		 lblNewLabel = null;
-		  BufferedImage img;
-			try {
-				img = ImageIO.read(new File("Imagenes/000.jpg"));
-				ImageIcon icon = new ImageIcon(img);
-		          lblNewLabel = new JLabel(icon);
-		          lblNewLabel.setBounds(437, 11, 337, 493);
-			} catch (IOException e1) {
-				System.out.println("Error en cliente: "+ e1.getMessage());
-			}
-		frame.getContentPane().add(lblNewLabel); 
-		
+		frame.setTitle("HC-128");
+		lblTitulo = new JLabel();
+		lblTitulo.setBounds(50, 20, 126, 22);
+//		lblTitulo.setOpaque(true);
+		lblTitulo.setText("Imagen encriptada");
+		lblTitulo.setForeground(Color.WHITE);
+//		lblTitulo.setBackground(new Color(34, 102, 102));
+		lblTitulo2 = new JLabel();
+		lblTitulo2.setBounds(517, 19, 141, 23);
+//		lblTitulo2.setBackground(new Color(34, 102, 102));
+//		lblTitulo2.setOpaque(true);
+		lblTitulo2.setText("Imagen desencriptada");
+		lblTitulo2.setForeground(Color.WHITE);
+		frame.getContentPane().add(lblTitulo);
+		frame.getContentPane().add(lblTitulo2);
+//		frame.getContentPane().setBackground(new Color(34, 102, 102));
+		frame.getContentPane().setBackground(new Color(102, 153, 153));
 		JButton btnNewButton = new JButton("Streaming");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					servicio.stremear();
 				} catch (Exception e) {
-					System.out.println("Error en cliente: "+ e.getMessage());
-				}				
+					System.out.println("Error en cliente: " + e.getMessage());
+				}
 			}
 		});
-		btnNewButton.setBounds(163, 515, 89, 23);
+		
+		//		lblNewLabel = null;
+		//		BufferedImage img;
+		//		img = ImageIO.read(new File("Imagenes/000.jpg"));
+		//		ImageIcon icon = new ImageIcon(img);
+				lblNewLabel = new JLabel();
+				lblNewLabel.setBounds(437, 68, 400, 493);
+				frame.getContentPane().add(lblNewLabel);
+		
+				label = new JLabel((Icon) null);
+				label.setBounds(46, 68, 337, 436);
+				frame.getContentPane().add(label);
+		
+				JButton btnSubirImagen = new JButton("Subir Imagen");
+				//		btnSubirImagen.setBackground(new Color(102, 153, 153));
+						btnSubirImagen.setBackground(new Color(34, 102, 102));
+						btnSubirImagen.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+
+								if (e.getSource() == btnSubirImagen) {
+									int returnVal = fc.showOpenDialog(Cliente.this);
+									if (returnVal == JFileChooser.APPROVE_OPTION) {
+										File file = fc.getSelectedFile();
+										JOptionPane.showMessageDialog(null, "El archivo cargado es: " + file.getName(), "Exito",
+												JOptionPane.INFORMATION_MESSAGE);
+										try {
+											servicio.enviarArchivo(file);
+										} catch (IOException | InterruptedException e1) {
+											JOptionPane.showMessageDialog(null, "Error no se pudo enviar el archivo", "ERROR",
+													JOptionPane.ERROR_MESSAGE);
+										}
+									}
+
+								}
+							}
+						});
+						btnSubirImagen.setBounds(26, 515, 116, 23);
+						btnSubirImagen.setForeground(Color.WHITE);
+						frame.getContentPane().add(btnSubirImagen);
+		btnNewButton.setBounds(163, 515, 116, 23);
+//		btnNewButton.setBackground(new Color(102, 153, 153));
+		btnNewButton.setBackground(new Color(34, 102, 102));
+		btnNewButton.setForeground(Color.WHITE);
 		frame.getContentPane().add(btnNewButton);
-		
-		label = new JLabel((Icon) null);
-		label.setBounds(46, 11, 337, 493);
-		frame.getContentPane().add(label);
-		
-		 frame.addWindowListener(new WindowAdapter() {
-	         @Override
-	         public void windowClosing(WindowEvent e) {
-	        	 try {
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
 					servicio.cerrarCliente();
 				} catch (IOException e1) {
-					System.out.println("Error en cliente: "+ e1.getMessage());
-				}finally {
+					System.out.println("Error en cliente: " + e1.getMessage());
+				} finally {
 					System.exit(0);
 				}
-	         }
-	      });
+			}
+		});
 	}
 
 	public JFrame getFrame() {
@@ -173,7 +198,7 @@ public class Cliente extends JPanel {
 
 	public void setLabelText(String string) {
 		this.lblNewLabel.setIcon(null);
-		this.lblNewLabel.setText(string);		
+		this.lblNewLabel.setText(string);
 	}
 
 	public void setLabelText(File file) {
@@ -181,31 +206,30 @@ public class Cliente extends JPanel {
 		try {
 			img = ImageIO.read(file);
 			ImageIcon icon = new ImageIcon(img);
-	        lblNewLabel.setIcon(icon); 
+			lblNewLabel.setIcon(icon);
 		} catch (IOException e) {
 		}
-		
+
 	}
 
 	public void setLabelText(BufferedImage img) {
-			ImageIcon icon = new ImageIcon(img);
-	        lblNewLabel.setIcon(icon); 
+		ImageIcon icon = new ImageIcon(img);
+		lblNewLabel.setIcon(icon);
 	}
-	
-	
+
 	public void setLabelEncriptadoText(File file) {
 		BufferedImage img;
 		try {
 			img = ImageIO.read(file);
 			ImageIcon icon = new ImageIcon(img);
-	        label.setIcon(icon); 
+			label.setIcon(icon);
 		} catch (IOException e) {
 		}
-		
+
 	}
 
 	public void setLabelEncriptadoText(BufferedImage img) {
-			ImageIcon icon = new ImageIcon(img);
-	        label.setIcon(icon); 
+		ImageIcon icon = new ImageIcon(img);
+		label.setIcon(icon);
 	}
 }
