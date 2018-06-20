@@ -70,14 +70,14 @@ public class ServicioTransmision {
 		int bloquesAEnviar = bytesBody.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 		
 		salida.write(bytesHeader,0,Utils.HEADER_LENGTH);
-		Thread.sleep(50);
+		Thread.sleep(10);
 		for (int i = 0; i < bloquesAEnviar; i++) {
 			if (i != bloquesAEnviar - 1) {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, bytesBody.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 			}
-			Thread.sleep(50);
+			Thread.sleep(10);
 			salida.flush();
 		}
 	}
@@ -147,7 +147,7 @@ public class ServicioTransmision {
 			webcam.setViewSize(size);
 			webcam.open(true);
 	
-			for (int i = 0; i < 500; i++) {
+			for (int i = 0; i < 300; i++) {
 				BufferedImage image = webcam.getImage();
 				File fileCam = new File("./Imagenes/camara.bmp");
 				ImageIO.write(image, "bmp", fileCam);

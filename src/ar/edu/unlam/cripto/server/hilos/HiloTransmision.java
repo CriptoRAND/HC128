@@ -62,7 +62,7 @@ public class HiloTransmision extends Thread {
 								salidaCliente.write(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, cantidad - (i*Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 							}
 							salidaCliente.flush();
-							Thread.sleep(50);
+							Thread.sleep(10);
 						}
 						System.out.println("Servidor: Imagen enviada");
 					}
