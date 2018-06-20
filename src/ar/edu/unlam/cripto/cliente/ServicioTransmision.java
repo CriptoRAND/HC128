@@ -63,7 +63,6 @@ public class ServicioTransmision {
             bytesBody[i] = baits[j];
         }
 
-		
         bytesBody = cipher.encriptar(bytesBody);
         
 		salida.writeInt(bytesBody.length);
@@ -91,7 +90,6 @@ public class ServicioTransmision {
 			System.out.println("Leyendo archivo");
 			System.out.println("CANTIDAD EN RECIBIRARCHIVO: " + cantidad);
 			
-			
 			byte bytesHeader [] = new byte[Utils.HEADER_LENGTH];
 			entrada.read(bytesHeader,0,Utils.HEADER_LENGTH);
 			
@@ -110,8 +108,6 @@ public class ServicioTransmision {
 			File fileEncriptado = new File("./Imagenes/temp.bmp");
 			Utils.byteToFile(bytesHeader,baits, fileEncriptado);
 			cliente.setLabelEncriptadoText(fileEncriptado);
-			
-			
 			baits = cipher.encriptar(baits);
 			File file = new File("./Imagenes/temp.bmp");
 			Utils.byteToFile(bytesHeader,baits, file);
@@ -151,15 +147,8 @@ public class ServicioTransmision {
 				BufferedImage image = webcam.getImage();
 				File fileCam = new File("./Imagenes/camara.bmp");
 				ImageIO.write(image, "bmp", fileCam);
-		//			byte[] imageBytes = ((DataBufferByte) image.getData().getDataBuffer()).getData();
-		//			enviarBytes(imageBytes);
 				enviarArchivo(fileCam);
-				// Este sleep estaba en el ejemplo para limitar a 10FPS, se lo saque y en la
-				// cristi funcionó
-				// Thread.sleep(100);
-		
 		}
-
 			
 		}catch(Exception e) {
 			System.out.println("Error en Servicio Transmision: "+ e.getMessage());
@@ -168,7 +157,41 @@ public class ServicioTransmision {
 				webcam.close();
 			}
 		}
+	}
 
+	public void enviarArchivoRoto(File file) throws FileNotFoundException, IOException, InterruptedException {
+		byte[] baits = Utils.fileToByte(file);
+		byte bytesHeader [] = new byte[Utils.HEADER_LENGTH];
+
+        for (int i = 0; i < Utils.HEADER_LENGTH; i ++){
+            bytesHeader[i] = baits[i];
+        }
+        
+        byte bytesBody [] = new byte[baits.length - Utils.HEADER_LENGTH];
+
+        for (int i = 0, j = Utils.HEADER_LENGTH; i < baits.length - Utils.HEADER_LENGTH ; i ++, j++){
+            bytesBody[i] = baits[j];
+        }
+
+        bytesBody = cipher.encriptar(bytesBody);
+        for(int i=0;i<bytesBody.length;i++) {
+        	bytesBody[i] |= (byte) (1 << 6);        	
+        }
+		salida.writeInt(bytesBody.length);
+		int bloquesAEnviar = bytesBody.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
+		
+		salida.write(bytesHeader,0,Utils.HEADER_LENGTH);
+		Thread.sleep(10);
+		for (int i = 0; i < bloquesAEnviar; i++) {
+			if (i != bloquesAEnviar - 1) {
+				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
+			} else {
+				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, bytesBody.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
+			}
+			Thread.sleep(10);
+			salida.flush();
+		}
+		
 	}
 
 }

@@ -76,15 +76,13 @@ public class Cliente extends JPanel {
 		}
 		frame.setTitle("HC-128");
 		lblTitulo = new JLabel();
-		lblTitulo.setBounds(50, 20, 126, 22);
-//		lblTitulo.setOpaque(true);
+		lblTitulo.setBounds(50, 20, 182, 22);
 		lblTitulo.setText("Imagen encriptada");
 		lblTitulo.setForeground(Color.WHITE);
 //		lblTitulo.setBackground(new Color(34, 102, 102));
 		lblTitulo2 = new JLabel();
-		lblTitulo2.setBounds(517, 19, 141, 23);
+		lblTitulo2.setBounds(517, 19, 169, 23);
 //		lblTitulo2.setBackground(new Color(34, 102, 102));
-//		lblTitulo2.setOpaque(true);
 		lblTitulo2.setText("Imagen desencriptada");
 		lblTitulo2.setForeground(Color.WHITE);
 		frame.getContentPane().add(lblTitulo);
@@ -102,10 +100,6 @@ public class Cliente extends JPanel {
 			}
 		});
 		
-		//		lblNewLabel = null;
-		//		BufferedImage img;
-		//		img = ImageIO.read(new File("Imagenes/000.jpg"));
-		//		ImageIcon icon = new ImageIcon(img);
 				lblNewLabel = new JLabel();
 				lblNewLabel.setBounds(437, 68, 400, 493);
 				frame.getContentPane().add(lblNewLabel);
@@ -140,11 +134,38 @@ public class Cliente extends JPanel {
 						btnSubirImagen.setBounds(26, 515, 116, 23);
 						btnSubirImagen.setForeground(Color.WHITE);
 						frame.getContentPane().add(btnSubirImagen);
-		btnNewButton.setBounds(163, 515, 116, 23);
+		btnNewButton.setBounds(290, 515, 116, 23);
 //		btnNewButton.setBackground(new Color(102, 153, 153));
 		btnNewButton.setBackground(new Color(34, 102, 102));
 		btnNewButton.setForeground(Color.WHITE);
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnImagenRota = new JButton("Imagen Rota");
+		btnImagenRota.setBackground(new Color(34, 102, 102));
+		btnImagenRota.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnImagenRota) {
+					int returnVal = fc.showOpenDialog(Cliente.this);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						JOptionPane.showMessageDialog(null, "El archivo cargado es: " + file.getName(), "Exito",
+								JOptionPane.INFORMATION_MESSAGE);
+						try {
+							servicio.enviarArchivoRoto(file);
+						} catch (IOException | InterruptedException e1) {
+							JOptionPane.showMessageDialog(null, "Error no se pudo enviar el archivo", "ERROR",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+
+				}
+				
+			}
+		});
+		btnImagenRota.setForeground(Color.WHITE);
+		btnImagenRota.setBackground(new Color(34, 102, 102));
+		btnImagenRota.setBounds(152, 515, 116, 23);
+		frame.getContentPane().add(btnImagenRota);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override

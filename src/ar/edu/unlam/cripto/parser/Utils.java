@@ -20,13 +20,6 @@ public class Utils {
 	public static int TAMAÑO_BLOQUE_A_ENVIAR = 20000;
 	public static Integer HEADER_LENGTH = 54;
 
-	/*
-	 * public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int
-	 * shift) { BigInteger topBits = bigInt.shiftRight(bitSize - shift); BigInteger
-	 * mask = BigInteger.ONE.shiftLeft(bitSize).subtract(BigInteger.ONE); return
-	 * bigInt.shiftLeft(shift).or(topBits).and(mask); }
-	 */
-
 	public static BigInteger rotateLeft(BigInteger bigInt, int bitSize, int shift) {
 		return new BigInteger(Integer.toString(Integer.rotateLeft(bigInt.intValue(), shift)));
 	}
@@ -40,10 +33,8 @@ public class Utils {
 	}
 
 	public static void byteToFile(byte[] bytes, File rutaArchivo) throws IOException {
-
 		FileOutputStream stream = new FileOutputStream(rutaArchivo);
 		try {
-//			stream.write(-1);
 			stream.write(bytes);
 		} finally {
 			stream.close();

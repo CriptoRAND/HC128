@@ -23,7 +23,6 @@ public class HiloTransmision extends Thread {
 	public void run() {
 		while (true) {
 			try {
-//				Thread.sleep(100);
 				int cantidad = entrada.readInt();
 				if(cantidad==Integer.MIN_VALUE) {
 					socketCliente.close();
@@ -41,7 +40,6 @@ public class HiloTransmision extends Thread {
 				byte[] baits = new byte[cantidad];
 				int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 				for (int i = 0; i < bloquesAEnviar; i++) {
-//					Thread.sleep(50);
 					if(i != bloquesAEnviar-1) {
 						entrada.read(baits, i*Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 					} else {
