@@ -101,11 +101,11 @@ public class Cliente extends JPanel {
 		});
 		
 				lblNewLabel = new JLabel();
-				lblNewLabel.setBounds(437, 68, 400, 493);
+				lblNewLabel.setBounds(374, 53, 400, 493);
 				frame.getContentPane().add(lblNewLabel);
 		
 				label = new JLabel((Icon) null);
-				label.setBounds(46, 68, 337, 436);
+				label.setBounds(10, 53, 400, 493);
 				frame.getContentPane().add(label);
 		
 				JButton btnSubirImagen = new JButton("Subir Imagen");
