@@ -21,7 +21,7 @@ public class Servidor {
 		try {
 			servidor = new ServerSocket(puerto);
 			new HiloConexion(servidor,clientes).start();
-			
+			System.out.println("Servidor iniciado");
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error al aceptar clientes", "Error", JOptionPane.ERROR_MESSAGE);
 		}
