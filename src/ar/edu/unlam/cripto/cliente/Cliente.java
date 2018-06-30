@@ -227,8 +227,13 @@ public class Cliente extends JPanel {
 		BufferedImage img;
 		try {
 			img = ImageIO.read(file);
-			Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
-			ImageIcon icon = new ImageIcon(dimg);
+			ImageIcon icon;
+			if(img.getWidth()>lblNewLabel.getWidth() || img.getHeight()>lblNewLabel.getHeight()) {
+				Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
+				icon= new ImageIcon(dimg);
+			}else {
+				icon = new ImageIcon(img);
+			}
 			lblNewLabel.setIcon(icon);
 		} catch (IOException e) {
 		}
@@ -236,8 +241,13 @@ public class Cliente extends JPanel {
 	}
 
 	public void setLabelText(BufferedImage img) {
-		Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
-		ImageIcon icon = new ImageIcon(dimg);
+		ImageIcon icon;
+		if(img.getWidth()>lblNewLabel.getWidth() || img.getHeight()>lblNewLabel.getHeight()) {
+			Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
+			icon= new ImageIcon(dimg);
+		}else {
+			icon = new ImageIcon(img);
+		}
 		lblNewLabel.setIcon(icon);
 	}
 
@@ -245,8 +255,14 @@ public class Cliente extends JPanel {
 		BufferedImage img;
 		try {
 			img = ImageIO.read(file);
-			Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
-			ImageIcon icon = new ImageIcon(dimg);
+			ImageIcon icon;
+			if(img.getWidth()>label.getWidth() || img.getHeight()>label.getHeight()) {
+				Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
+				icon= new ImageIcon(dimg);
+			}else {
+				icon = new ImageIcon(img);
+			}
+			label.setIcon(icon);
 			label.setIcon(icon);
 		} catch (IOException e) {
 		}
@@ -254,8 +270,14 @@ public class Cliente extends JPanel {
 	}
 
 	public void setLabelEncriptadoText(BufferedImage img) {
-		Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
-		ImageIcon icon = new ImageIcon(dimg);
+		
+		ImageIcon icon;
+		if(img.getWidth()>label.getWidth() || img.getHeight()>label.getHeight()) {
+			Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
+			icon= new ImageIcon(dimg);
+		}else {
+			icon = new ImageIcon(img);
+		}
 		label.setIcon(icon);
 	}
 }
