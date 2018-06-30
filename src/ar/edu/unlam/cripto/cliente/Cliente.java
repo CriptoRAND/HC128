@@ -2,6 +2,7 @@ package ar.edu.unlam.cripto.cliente;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -101,11 +102,11 @@ public class Cliente extends JPanel {
 		});
 		
 				lblNewLabel = new JLabel();
-				lblNewLabel.setBounds(374, 53, 400, 493);
+				lblNewLabel.setBounds(374, 53, 400, 451);
 				frame.getContentPane().add(lblNewLabel);
 		
 				label = new JLabel((Icon) null);
-				label.setBounds(10, 53, 400, 493);
+				label.setBounds(10, 53, 400, 451);
 				frame.getContentPane().add(label);
 		
 				JButton btnSubirImagen = new JButton("Subir Imagen");
@@ -226,7 +227,8 @@ public class Cliente extends JPanel {
 		BufferedImage img;
 		try {
 			img = ImageIO.read(file);
-			ImageIcon icon = new ImageIcon(img);
+			Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(dimg);
 			lblNewLabel.setIcon(icon);
 		} catch (IOException e) {
 		}
@@ -234,7 +236,8 @@ public class Cliente extends JPanel {
 	}
 
 	public void setLabelText(BufferedImage img) {
-		ImageIcon icon = new ImageIcon(img);
+		Image dimg = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(),  Image.SCALE_SMOOTH);
+		ImageIcon icon = new ImageIcon(dimg);
 		lblNewLabel.setIcon(icon);
 	}
 
@@ -242,7 +245,8 @@ public class Cliente extends JPanel {
 		BufferedImage img;
 		try {
 			img = ImageIO.read(file);
-			ImageIcon icon = new ImageIcon(img);
+			Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(dimg);
 			label.setIcon(icon);
 		} catch (IOException e) {
 		}
@@ -250,7 +254,8 @@ public class Cliente extends JPanel {
 	}
 
 	public void setLabelEncriptadoText(BufferedImage img) {
-		ImageIcon icon = new ImageIcon(img);
+		Image dimg = img.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_SMOOTH);
+		ImageIcon icon = new ImageIcon(dimg);
 		label.setIcon(icon);
 	}
 }
