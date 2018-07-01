@@ -80,15 +80,12 @@ public class Cliente extends JPanel {
 		lblTitulo.setBounds(50, 20, 182, 22);
 		lblTitulo.setText("Imagen encriptada");
 		lblTitulo.setForeground(Color.WHITE);
-//		lblTitulo.setBackground(new Color(34, 102, 102));
 		lblTitulo2 = new JLabel();
 		lblTitulo2.setBounds(517, 19, 169, 23);
-//		lblTitulo2.setBackground(new Color(34, 102, 102));
 		lblTitulo2.setText("Imagen desencriptada");
 		lblTitulo2.setForeground(Color.WHITE);
 		frame.getContentPane().add(lblTitulo);
 		frame.getContentPane().add(lblTitulo2);
-//		frame.getContentPane().setBackground(new Color(34, 102, 102));
 		frame.getContentPane().setBackground(new Color(102, 153, 153));
 		JButton btnNewButton = new JButton("Streaming");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -110,7 +107,6 @@ public class Cliente extends JPanel {
 				frame.getContentPane().add(label);
 		
 				JButton btnSubirImagen = new JButton("Subir Imagen");
-				//		btnSubirImagen.setBackground(new Color(102, 153, 153));
 						btnSubirImagen.setBackground(new Color(34, 102, 102));
 						btnSubirImagen.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
@@ -136,7 +132,6 @@ public class Cliente extends JPanel {
 						btnSubirImagen.setForeground(Color.WHITE);
 						frame.getContentPane().add(btnSubirImagen);
 		btnNewButton.setBounds(290, 515, 116, 23);
-//		btnNewButton.setBackground(new Color(102, 153, 153));
 		btnNewButton.setBackground(new Color(34, 102, 102));
 		btnNewButton.setForeground(Color.WHITE);
 		frame.getContentPane().add(btnNewButton);

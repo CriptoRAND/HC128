@@ -58,7 +58,6 @@ public class ServicioTransmision {
         
         byte bytesBody [] = new byte[baits.length - Utils.HEADER_LENGTH];
 
-        //for flashero 
         for (int i = 0, j = Utils.HEADER_LENGTH; i < baits.length - Utils.HEADER_LENGTH ; i ++, j++){
             bytesBody[i] = baits[j];
         }
@@ -69,14 +68,12 @@ public class ServicioTransmision {
 		int bloquesAEnviar = bytesBody.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 		
 		salida.write(bytesHeader,0,Utils.HEADER_LENGTH);
-//		Thread.sleep(10);
 		for (int i = 0; i < bloquesAEnviar; i++) {
 			if (i != bloquesAEnviar - 1) {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, bytesBody.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 			}
-//			Thread.sleep(10);
 			salida.flush();
 		}
 	}
@@ -96,7 +93,6 @@ public class ServicioTransmision {
 			byte[] baits = new byte[cantidad];
 			int bloquesAEnviar = cantidad / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 			for (int i = 0; i < bloquesAEnviar; i++) {
-				// Thread.sleep(10);
 				if (i != bloquesAEnviar - 1) {
 					entrada.read(baits, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 				} else {
@@ -181,14 +177,12 @@ public class ServicioTransmision {
 		int bloquesAEnviar = bytesBody.length / Utils.TAMAÑO_BLOQUE_A_ENVIAR + 1;
 		
 		salida.write(bytesHeader,0,Utils.HEADER_LENGTH);
-//		Thread.sleep(10);
 		for (int i = 0; i < bloquesAEnviar; i++) {
 			if (i != bloquesAEnviar - 1) {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, Utils.TAMAÑO_BLOQUE_A_ENVIAR);
 			} else {
 				salida.write(bytesBody, i * Utils.TAMAÑO_BLOQUE_A_ENVIAR, bytesBody.length - (i * Utils.TAMAÑO_BLOQUE_A_ENVIAR));
 			}
-//			Thread.sleep(10);
 			salida.flush();
 		}
 		
