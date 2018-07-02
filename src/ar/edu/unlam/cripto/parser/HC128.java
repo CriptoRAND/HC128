@@ -36,7 +36,7 @@ public class HC128 {
 					nuevoInt = h1(p[mod512(j - 12)] ^ p[j]);
 				} else {
 					q[j] = (q[j] + g1(q[mod512(j - 3)], q[mod512(j - 10)], q[mod512(j - 511)]));
-					nuevoInt = h1(q[mod512(j - 12)] ^ q[j]);
+					nuevoInt = h2(q[mod512(j - 12)] ^ q[j]);
 				}
 				buffer[3] = (byte) (nuevoInt & 0xFF);
 				nuevoInt >>= 8;
