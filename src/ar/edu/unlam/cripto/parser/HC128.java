@@ -91,7 +91,7 @@ public class HC128 {
 
 		for (int i = 0; i <= 511; i++) {
 			p[i] = (p[i] + g1(p[mod512(i - 3)], p[mod512(i - 511)], p[mod512(i - 511)]) ^ h1(p[mod512(i - 12)]));
-			q[i] = (p[i] + g2(p[mod512(i - 3)], p[mod512(i - 511)], p[mod512(i - 511)]) ^ h2(p[mod512(i - 12)]));
+			q[i] = (q[i] + g2(p[mod512(i - 3)], p[mod512(i - 511)], p[mod512(i - 511)]) ^ h2(p[mod512(i - 12)]));
 		}
 
 	}
